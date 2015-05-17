@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView
+		android:id="@+id/serverStateText"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"
+	></TextView>
+	
+	<EditText
+		android:id="@+id/serverEditText"
+		android:layout_width="fill_parent"
+		android:layout_height="200dip"
+		android:singleLine="false"
+		android:gravity="top"
+		android:editable="false"
+		android:cursorVisible="false"
+		android:background="#aaa"
+		android:layout_margin="5dip"
+	></EditText>
+	
+	<EditText
+		android:id="@+id/serverSendEditText"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	></EditText>
+	<Button
+		android:id="@+id/serverSendMsgBtn"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="发送"
+	></Button>
+</LinearLayout>
