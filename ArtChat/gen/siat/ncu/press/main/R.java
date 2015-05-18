@@ -37,6 +37,9 @@ public final class R {
         public static final int zoom_enter=0x7f040019;
         public static final int zoom_exit=0x7f04001a;
     }
+    public static final class array {
+        public static final int array_sample_rate=0x7f0b0000;
+    }
     public static final class attr {
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -639,7 +642,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int margin_space_n=0x7f09000e;
         public static final int padding_m=0x7f09001e;
-        public static final int text_size_1=0x7f090023;
+        public static final int spinner_size=0x7f090023;
         public static final int text_size_2=0x7f090024;
         public static final int text_size_3=0x7f090025;
         public static final int text_size_4=0x7f090026;
@@ -650,7 +653,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int achartengine=0x7f020000;
         public static final int bg_popwindow=0x7f020001;
-        public static final int blue=0x7f02001f;
+        public static final int blue=0x7f020025;
         public static final int btn_big_normal_disable=0x7f020002;
         public static final int btn_big_normal_normal=0x7f020003;
         public static final int btn_big_normal_press=0x7f020004;
@@ -659,71 +662,89 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btn_default_disable=0x7f020007;
         public static final int btn_default_nomal=0x7f020008;
         public static final int btn_default_sel=0x7f020009;
-        public static final int edittext_default=0x7f02000a;
-        public static final int edittext_normal_focus=0x7f02000b;
-        public static final int edittext_normal_normal=0x7f02000c;
-        public static final int edittext_normal_press=0x7f02000d;
-        public static final int green=0x7f020020;
-        public static final int ic_launcher=0x7f02000e;
-        public static final int ic_pulltorefresh_arrow=0x7f02000f;
-        public static final int ic_pulltorefresh_arrow2=0x7f020010;
-        public static final int id_bluetooth_connect=0x7f020011;
-        public static final int id_bluetooth_unconnect=0x7f020012;
-        public static final int list_selector_transition=0x7f020013;
-        public static final int point_1=0x7f020014;
-        public static final int point_2=0x7f020015;
-        public static final int red=0x7f02001e;
-        public static final int screen_background_black=0x7f020022;
-        public static final int translucent_background=0x7f020023;
-        public static final int transparent=0x7f02001d;
+        public static final int btn_exam_details_array_add_nomal=0x7f02000a;
+        public static final int comp=0x7f02000b;
+        public static final int edittext_default=0x7f02000c;
+        public static final int edittext_normal_focus=0x7f02000d;
+        public static final int edittext_normal_normal=0x7f02000e;
+        public static final int edittext_normal_press=0x7f02000f;
+        public static final int flup_select_normal=0x7f020010;
+        public static final int green=0x7f020026;
+        public static final int ic_choose_sex_selector=0x7f020011;
+        public static final int ic_launcher=0x7f020012;
+        public static final int ic_ok_sel=0x7f020013;
+        public static final int ic_pulltorefresh_arrow=0x7f020014;
+        public static final int ic_pulltorefresh_arrow2=0x7f020015;
+        public static final int id_bluetooth_connect=0x7f020016;
+        public static final int id_bluetooth_unconnect=0x7f020017;
+        public static final int list_selector_transition=0x7f020018;
+        public static final int mainheart_delete=0x7f020019;
+        public static final int point_1=0x7f02001a;
+        public static final int point_2=0x7f02001b;
+        public static final int red=0x7f020024;
+        public static final int screen_background_black=0x7f020028;
+        public static final int translucent_background=0x7f020029;
+        public static final int transparent=0x7f020023;
         /**  
     <drawable name="transparent_background">#00000000</drawable>
     
          */
-        public static final int transparent_background=0x7f020024;
-        public static final int vpi_tab_indicator=0x7f020016;
-        public static final int vpi_tab_selected_focused_holo=0x7f020017;
-        public static final int vpi_tab_selected_holo=0x7f020018;
-        public static final int vpi_tab_selected_pressed_holo=0x7f020019;
-        public static final int vpi_tab_unselected_focused_holo=0x7f02001a;
-        public static final int vpi_tab_unselected_holo=0x7f02001b;
-        public static final int vpi_tab_unselected_pressed_holo=0x7f02001c;
-        public static final int yellow=0x7f020021;
+        public static final int transparent_background=0x7f02002a;
+        public static final int vpi_tab_indicator=0x7f02001c;
+        public static final int vpi_tab_selected_focused_holo=0x7f02001d;
+        public static final int vpi_tab_selected_holo=0x7f02001e;
+        public static final int vpi_tab_selected_pressed_holo=0x7f02001f;
+        public static final int vpi_tab_unselected_focused_holo=0x7f020020;
+        public static final int vpi_tab_unselected_holo=0x7f020021;
+        public static final int vpi_tab_unselected_pressed_holo=0x7f020022;
+        public static final int yellow=0x7f020027;
     }
     public static final class id {
-        public static final int action_settings=0x7f050020;
-        public static final int arrow=0x7f05001c;
+        public static final int action_settings=0x7f05002c;
+        public static final int arrow=0x7f050026;
         public static final int bottom=0x7f050003;
-        public static final int button_scan=0x7f05001b;
-        public static final int device_scan_title=0x7f050015;
-        public static final int devicescan_progressbar=0x7f050016;
-        public static final int dialog_generic_btn_button1=0x7f050011;
-        public static final int dialog_generic_btn_button2=0x7f050012;
-        public static final int dialog_generic_btn_button3=0x7f050013;
-        public static final int dialog_generic_htv_message=0x7f05000f;
-        public static final int dialog_generic_htv_title=0x7f05000c;
-        public static final int dialog_generic_layout_bottom=0x7f050010;
-        public static final int dialog_generic_layout_content=0x7f05000e;
-        public static final int dialog_generic_layout_root=0x7f050009;
-        public static final int dialog_generic_layout_title=0x7f05000b;
-        public static final int dialog_generic_layout_top=0x7f05000a;
-        public static final int dialog_generic_view_titleline=0x7f05000d;
+        public static final int btn_addpress=0x7f050011;
+        public static final int btn_comp=0x7f050010;
+        public static final int btn_delpress=0x7f050012;
+        public static final int button_scan=0x7f050025;
+        public static final int device_scan_title=0x7f05001f;
+        public static final int devicescan_progressbar=0x7f050020;
+        public static final int dialog_generic_btn_button1=0x7f05001b;
+        public static final int dialog_generic_btn_button2=0x7f05001c;
+        public static final int dialog_generic_btn_button3=0x7f05001d;
+        public static final int dialog_generic_htv_message=0x7f050019;
+        public static final int dialog_generic_htv_title=0x7f050016;
+        public static final int dialog_generic_layout_bottom=0x7f05001a;
+        public static final int dialog_generic_layout_content=0x7f050018;
+        public static final int dialog_generic_layout_root=0x7f050013;
+        public static final int dialog_generic_layout_title=0x7f050015;
+        public static final int dialog_generic_layout_top=0x7f050014;
+        public static final int dialog_generic_view_titleline=0x7f050017;
+        public static final int edtTxt_PressTime=0x7f05002b;
+        public static final int edtTxt_PressValue=0x7f05002a;
+        public static final int edtTxt_sampleRate=0x7f05000a;
         public static final int iV_btstatue=0x7f050006;
         public static final int linearLayout_btooth=0x7f050005;
         public static final int linearLayout_chat=0x7f050008;
-        public static final int loadingdialog_htv_text=0x7f050014;
-        public static final int new_devices=0x7f05001a;
+        public static final int linelay_press=0x7f05000c;
+        public static final int loadingdialog_htv_text=0x7f05001e;
+        public static final int new_devices=0x7f050024;
         public static final int none=0x7f050000;
-        public static final int paired_devices=0x7f050018;
-        public static final int progerssbar=0x7f05001d;
+        public static final int paired_devices=0x7f050022;
+        public static final int progerssbar=0x7f050027;
+        public static final int pv1=0x7f05000d;
+        public static final int pv2=0x7f05000e;
+        public static final int pv3=0x7f05000f;
+        public static final int scrollView_Press=0x7f050009;
+        public static final int spn_SampleRate=0x7f05000b;
         public static final int tV_btDeviceNm=0x7f050007;
-        public static final int title=0x7f05001e;
-        public static final int title_new_devices=0x7f050019;
-        public static final int title_paired_devices=0x7f050017;
+        public static final int title=0x7f050028;
+        public static final int title_new_devices=0x7f050023;
+        public static final int title_paired_devices=0x7f050021;
         public static final int top=0x7f050004;
         public static final int triangle=0x7f050001;
         public static final int underline=0x7f050002;
-        public static final int updated=0x7f05001f;
+        public static final int updated=0x7f050029;
     }
     public static final class integer {
         public static final int default_circle_indicator_orientation=0x7f080000;
@@ -734,59 +755,71 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int common_dialog_generic=0x7f030001;
-        public static final int common_flipping_loading_diloag=0x7f030002;
-        public static final int devicescan_list_item=0x7f030003;
-        public static final int devicescandialog=0x7f030004;
-        public static final int item_listview_footer_layout=0x7f030005;
-        public static final int item_listview_header_layout=0x7f030006;
+        public static final int activity_setinfo=0x7f030001;
+        public static final int common_dialog_generic=0x7f030002;
+        public static final int common_flipping_loading_diloag=0x7f030003;
+        public static final int devicescan_list_item=0x7f030004;
+        public static final int devicescandialog=0x7f030005;
+        public static final int item_listview_footer_layout=0x7f030006;
+        public static final int item_listview_header_layout=0x7f030007;
+        public static final int item_press=0x7f030008;
     }
     public static final class menu {
-        public static final int main=0x7f0c0000;
+        public static final int main=0x7f0d0000;
     }
     public static final class string {
-        public static final int BluetoothAdapterNotFound=0x7f0b000e;
-        public static final int CreateSocketFailed=0x7f0b0010;
-        public static final int CreateStreamFailed=0x7f0b0012;
-        public static final int DeviceDisconnected=0x7f0b0013;
-        public static final int ServiceDiscoveryFailed=0x7f0b0011;
-        public static final int StopBluttooth=0x7f0b0014;
-        public static final int UnableToStartServiceDiscovery=0x7f0b000f;
-        public static final int action_settings=0x7f0b0001;
-        public static final int app_name=0x7f0b0000;
-        public static final int bt_not_enabled=0x7f0b001e;
-        public static final int button_scan=0x7f0b0025;
-        public static final int close=0x7f0b0004;
-        public static final int connecting=0x7f0b0027;
-        public static final int device_connected=0x7f0b0026;
-        public static final int discovery=0x7f0b0015;
-        public static final int ecg_choose=0x7f0b000a;
-        public static final int ecg_clear=0x7f0b000d;
-        public static final int ecg_current=0x7f0b0008;
-        public static final int ecg_delete=0x7f0b000c;
-        public static final int ecg_device=0x7f0b0006;
-        public static final int ecg_list=0x7f0b0007;
-        public static final int ecg_total=0x7f0b0009;
-        public static final int ecg_view=0x7f0b000b;
-        public static final int email=0x7f0b0019;
-        public static final int emailBody=0x7f0b0018;
-        public static final int getDataing=0x7f0b0028;
-        public static final int getdata=0x7f0b0029;
-        public static final int hello_world=0x7f0b0002;
-        public static final int no_getdata=0x7f0b001d;
-        public static final int none_found=0x7f0b0023;
-        public static final int none_paired=0x7f0b0024;
-        public static final int open=0x7f0b0003;
-        public static final int openBT=0x7f0b0005;
-        public static final int real_press=0x7f0b001b;
-        public static final int scanning=0x7f0b0021;
-        public static final int select_device=0x7f0b0022;
-        public static final int standard_press=0x7f0b001a;
-        public static final int title_other_devices=0x7f0b0020;
-        public static final int title_paired_devices=0x7f0b001f;
-        public static final int unconnect=0x7f0b001c;
-        public static final int wait=0x7f0b0017;
-        public static final int warn=0x7f0b0016;
+        public static final int BluetoothAdapterNotFound=0x7f0c000e;
+        public static final int CreateSocketFailed=0x7f0c0010;
+        public static final int CreateStreamFailed=0x7f0c0012;
+        public static final int DeviceDisconnected=0x7f0c0013;
+        public static final int ServiceDiscoveryFailed=0x7f0c0011;
+        public static final int StopBluttooth=0x7f0c0014;
+        public static final int UnableToStartServiceDiscovery=0x7f0c000f;
+        public static final int action_settings=0x7f0c0001;
+        public static final int add_press=0x7f0c0030;
+        public static final int app_name=0x7f0c0000;
+        public static final int bt_not_enabled=0x7f0c001e;
+        public static final int button_scan=0x7f0c0025;
+        public static final int close=0x7f0c0004;
+        public static final int comp_infoset=0x7f0c002f;
+        public static final int connecting=0x7f0c0027;
+        public static final int default_amount=0x7f0c0032;
+        public static final int default_value=0x7f0c002d;
+        public static final int del_press=0x7f0c0031;
+        public static final int device_connected=0x7f0c0026;
+        public static final int discovery=0x7f0c0015;
+        public static final int ecg_choose=0x7f0c000a;
+        public static final int ecg_clear=0x7f0c000d;
+        public static final int ecg_current=0x7f0c0008;
+        public static final int ecg_delete=0x7f0c000c;
+        public static final int ecg_device=0x7f0c0006;
+        public static final int ecg_list=0x7f0c0007;
+        public static final int ecg_total=0x7f0c0009;
+        public static final int ecg_view=0x7f0c000b;
+        public static final int email=0x7f0c0019;
+        public static final int emailBody=0x7f0c0018;
+        public static final int getDataing=0x7f0c0028;
+        public static final int getdata=0x7f0c0029;
+        public static final int hello_world=0x7f0c0002;
+        public static final int no_getdata=0x7f0c001d;
+        public static final int none_found=0x7f0c0023;
+        public static final int none_paired=0x7f0c0024;
+        public static final int open=0x7f0c0003;
+        public static final int openBT=0x7f0c0005;
+        public static final int press_time=0x7f0c002c;
+        public static final int press_value=0x7f0c002b;
+        public static final int real_press=0x7f0c001b;
+        public static final int sampling_rate=0x7f0c002a;
+        public static final int sampling_unit=0x7f0c002e;
+        public static final int scanning=0x7f0c0021;
+        public static final int select_device=0x7f0c0022;
+        public static final int standard_press=0x7f0c001a;
+        public static final int title_other_devices=0x7f0c0020;
+        public static final int title_paired_devices=0x7f0c001f;
+        public static final int unconnect=0x7f0c001c;
+        public static final int wait=0x7f0c0017;
+        public static final int warn=0x7f0c0016;
+        public static final int warning_info=0x7f0c0033;
     }
     public static final class style {
         public static final int Animation_Dialog=0x7f0a0009;
@@ -847,6 +880,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int Widget=0x7f0a0012;
         public static final int Widget_IconPageIndicator=0x7f0a0014;
         public static final int Widget_TabPageIndicator=0x7f0a0015;
+        public static final int infoSet_btn_style=0x7f0a0018;
+        public static final int spinnerStyle=0x7f0a0017;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

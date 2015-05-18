@@ -48,4 +48,16 @@
     
     <string name="getDataing">获取数据...</string>
     <string name="getdata">获取数据</string>
+    
+    <string name="sampling_rate">采样频率：</string>
+    <string name="press_value">压力值：</string>
+    <string name="press_time">时间：</string>
+    <string name="default_value">10</string>
+    <string name="sampling_unit">HZ/S</string>
+    
+    <string name="comp_infoset">完成设置</string>
+    <string name="add_press">添加压力</string>
+    <string name="del_press">删除压力</string>
+    <string name="default_amount">默认个数为两个</string>
+    <string name="warning_info">请至少设置一组数据</string>
 </resources>

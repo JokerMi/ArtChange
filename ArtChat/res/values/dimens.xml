@@ -30,7 +30,7 @@
     <dimen name="bottombar_height">50dp</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="button_width">70dp</dimen>
-    <dimen name="text_size_1">15sp</dimen>
+    <dimen name="spinner_size">10sp</dimen>
     <dimen name="text_size_2">20sp</dimen>
     <dimen name="text_size_3">25sp</dimen>
     <dimen name="text_size_4">30sp</dimen>

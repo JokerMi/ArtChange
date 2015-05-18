@@ -4,6 +4,7 @@ package siat.ncu.press.main;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.achartengine.ChartFactory;
@@ -14,6 +15,7 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import siat.ncu.press.bean.PressInfo;
 import siat.ncu.press.util.BluetoothCommunicateThread;
 import siat.ncu.press.util.BluetoothService;
 import siat.ncu.press.util.Cache;
@@ -75,6 +77,9 @@ public class MainActivity extends PressBaseActivity {
 	private boolean isAsyn = true;
 	private Cache cache;
 	private boolean pressDrawflag = true;
+	
+	private int sampleRateInt;
+	private ArrayList<PressInfo> mArrayList;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); //无title
@@ -207,6 +212,10 @@ public class MainActivity extends PressBaseActivity {
     };
 
     public void initDatas() {
+        Intent mIntent = getIntent();
+        sampleRateInt = Integer.valueOf(mIntent.getStringExtra("sampleRate"));
+        mArrayList = mIntent.getParcelableArrayListExtra("pressinfo");
+        
         context = MainActivity.this;
         cache = new Cache(context);
         mBluetoothService = BluetoothService.getService(btoothHandler, false);// 异步方式
@@ -221,6 +230,7 @@ public class MainActivity extends PressBaseActivity {
         b = new BigDecimal(addY + value); //保留三位小数 四舍五入
         addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
+    
     public void initChatDatas(){
       //No.1 设定大渲染器的属性
         renderer = new XYRenderer("压力图", "时间(ms)", "压力(kg)", 100, X_MAX, -1, 1, Color.GRAY, Color.LTGRAY, 16, 16, 15,

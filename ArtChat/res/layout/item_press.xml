@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+     <LinearLayout android:layout_width="0dp"
+         android:layout_weight="1"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/margin_space_n">
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/press_value"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_text_medium"/>
+            <EditText android:id="@+id/edtTxt_PressValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_text_medium"
+                android:numeric="integer"
+                android:gravity="center"/>
+    </LinearLayout>
+ 	<LinearLayout android:layout_width="0dp"
+         android:layout_weight="1"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/margin_space_n">
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/press_time"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_text_medium"/>
+            <EditText android:id="@+id/edtTxt_PressTime" 
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_text_medium"
+                android:numeric="integer"
+                android:gravity="center"/>
+     </LinearLayout>
+</LinearLayout>

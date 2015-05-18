@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView_Press"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/color_nomal_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_nomal_bg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_space_n"
+            android:layout_marginLeft="@dimen/margin_space_n"
+            android:layout_marginRight="@dimen/margin_space_n"
+            android:layout_marginTop="@dimen/margin_space_n" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sampling_rate"
+                android:textSize="@dimen/font_text_medium" />
+
+            <EditText
+                android:id="@+id/edtTxt_sampleRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="gone" />
+
+            <Spinner
+                android:id="@+id/spn_SampleRate"
+                style="@style/spinnerStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sampling_unit"
+                android:textSize="@dimen/font_text_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linelay_press"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <siat.ncu.press.selfview.PressView
+                android:id="@+id/pv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </siat.ncu.press.selfview.PressView>
+
+            <siat.ncu.press.selfview.PressView
+                android:id="@+id/pv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </siat.ncu.press.selfview.PressView>
+
+            <siat.ncu.press.selfview.PressView
+                android:id="@+id/pv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:visibility="gone">
+            </siat.ncu.press.selfview.PressView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btn_comp"
+                style="@style/infoSet_btn_style"
+                android:text="@string/comp_infoset" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_addpress"
+                style="@style/infoSet_btn_style"
+                android:text="@string/add_press" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_delpress"
+                style="@style/infoSet_btn_style"
+                android:text="@string/del_press" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

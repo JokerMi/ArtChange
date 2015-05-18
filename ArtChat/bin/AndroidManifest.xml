@@ -15,14 +15,15 @@
         android:icon="@drawable/achartengine"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="siat.ncu.press.main.MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
+        
+        <activity android:name="siat.ncu.press.main.InfoSetActivity" >
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity android:name="siat.ncu.press.main.MainActivity" >
         </activity>
         
         <activity android:name="siat.ncu.press.main.DeviceScanActivity" 
