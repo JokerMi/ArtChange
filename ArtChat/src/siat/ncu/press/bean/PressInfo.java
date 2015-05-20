@@ -8,27 +8,32 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PressInfo implements Parcelable{
-    private String pressValue;
-    private String pressTime;
+    private int pressValue;
+    private int pressTime;
     
     public PressInfo() {
     }
     
-    public String getPressValue() {
+
+    public int getPressValue() {
         return pressValue;
     }
 
-    public void setPressValue(String pressValue) {
+
+    public void setPressValue(int pressValue) {
         this.pressValue = pressValue;
     }
 
-    public String getPressTime() {
+
+    public int getPressTime() {
         return pressTime;
     }
 
-    public void setPressTime(String pressTime) {
+
+    public void setPressTime(int pressTime) {
         this.pressTime = pressTime;
     }
+
 
     public static Parcelable.Creator<PressInfo> getCreator() {
         return CREATOR;
@@ -40,8 +45,8 @@ public class PressInfo implements Parcelable{
     }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(pressValue);
-        dest.writeString(pressTime);
+        dest.writeInt(pressValue);
+        dest.writeInt(pressTime);
     }
     
     public static final Parcelable.Creator<PressInfo> CREATOR = new Parcelable.Creator<PressInfo>() {
@@ -58,7 +63,7 @@ public class PressInfo implements Parcelable{
         
     };
     private PressInfo(Parcel in) {
-        pressValue = in.readString();
-        pressTime = in.readString();
+        pressValue = in.readInt();
+        pressTime = in.readInt();
     }
 }

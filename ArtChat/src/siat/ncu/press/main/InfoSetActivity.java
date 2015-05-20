@@ -121,6 +121,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
             case R.id.btn_addpress:
                 addPressView();
                 pvCurrentAmount++;
+                System.out.println(pvCurrentAmount+PV_NORMAL_AMOUNT+".......");
                 break;
             case R.id.btn_delpress:
                 if(pvCurrentAmount == PV_NORMAL_AMOUNT){
@@ -137,12 +138,12 @@ public class InfoSetActivity extends Activity implements OnClickListener{
     }
     protected ArrayList<PressInfo> getPressInfoList() {
         ArrayList<PressInfo> mList = new ArrayList<PressInfo>();
-        for(int i=0;i < pvCurrentAmount;i++) {
+        for(int i=0;i <= pvCurrentAmount;i++) {
             PressView mPressView = (PressView)pressLineLay.getChildAt(i);
             if(mPressView != null && !"".equals(mPressView.getPressValue()) && !"".equals(mPressView.getPressValue())) {
                 PressInfo mInfo = new PressInfo();
-                mInfo.setPressValue(mPressView.getPressValue());
-                mInfo.setPressTime(mPressView.getPressTime());
+                mInfo.setPressValue(Integer.valueOf(mPressView.getPressValue()));
+                mInfo.setPressTime(Integer.valueOf(mPressView.getPressTime()));
                 mList.add(mInfo);
                 System.out.println("value:"+mPressView.getPressValue()+"  time" + mPressView.getPressTime());
             }
@@ -156,7 +157,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
     }
     
     protected void delPressView() {
-        pressLineLay.removeViewAt(pvCurrentAmount-1);
+        pressLineLay.removeViewAt(pvCurrentAmount);
     }
     
     @Override

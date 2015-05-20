@@ -61,11 +61,12 @@ public class MainActivity extends PressBaseActivity {
     private XYSeriesRenderer datarenderer_down;
     private Context context;
    
-	private int i=0;
+	private double currentStep=0;
 	private Thread pressThread;
-    private int addX ;
+    private double addX ;
     private double addY ;
-    int X_MAX=1000;//x轴最大值
+    private int X_MIN = 0;
+    private int X_MAX=10;//x轴最大值
 	//标准和阈值
 	private double value=30 ;//平行线中间值
 	private double bound=30;//上下限 可以自己随意设定
@@ -78,8 +79,15 @@ public class MainActivity extends PressBaseActivity {
 	private Cache cache;
 	private boolean pressDrawflag = true;
 	
-	private int sampleRateInt;
+	private double sampleRateDouble; //采样频率
+	private double baseTime = 1; //基础时间1s
+	private double xGap;         //x轴的步长，等于1除以采样频率
+	private double timeInterval;   //时间间隔，用于线程睡眠，等于1000毫秒除以采样频率
+	private double time = 1000;   //1000毫秒
+	private int currentStandardLength = 0; //当前标准线的长度，绘制标准压力线时使用
 	private ArrayList<PressInfo> mArrayList;
+	private ArrayList<Double> oldX;
+	private ArrayList<Double> oldY;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); //无title
@@ -213,13 +221,21 @@ public class MainActivity extends PressBaseActivity {
 
     public void initDatas() {
         Intent mIntent = getIntent();
-        sampleRateInt = Integer.valueOf(mIntent.getStringExtra("sampleRate"));
+        sampleRateDouble = Integer.valueOf(mIntent.getStringExtra("sampleRate"));
         mArrayList = mIntent.getParcelableArrayListExtra("pressinfo");
+        for(PressInfo m:mArrayList) {
+            System.out.println("  "+m.getPressValue()+" " +m.getPressValue());
+        }
+        xGap = baseTime/sampleRateDouble;
+        timeInterval = time/sampleRateDouble;
         
         context = MainActivity.this;
         cache = new Cache(context);
         mBluetoothService = BluetoothService.getService(btoothHandler, false);// 异步方式
         pressThread=new Thread(PressRunnable); 
+        
+        oldX = new ArrayList<Double>();
+        oldY = new ArrayList<Double>();
         initChatDatas();
     }
     
@@ -233,14 +249,14 @@ public class MainActivity extends PressBaseActivity {
     
     public void initChatDatas(){
       //No.1 设定大渲染器的属性
-        renderer = new XYRenderer("压力图", "时间(ms)", "压力(kg)", 100, X_MAX, -1, 1, Color.GRAY, Color.LTGRAY, 16, 16, 15,
+        renderer = new XYRenderer("压力图", "时间(ms)", "压力(kg)", X_MIN, X_MAX, -1, 1, Color.GRAY, Color.LTGRAY, 16, 16, 15,
                 15, 10, 10, true);
         dataset = new XYMultipleSeriesDataset();
         datarenderer = new XYSeriesRenderer();
-        //      datarenderer.setDisplayChartValues(true);
+//        datarenderer.setDisplayChartValues(true);
         xyseries = new XYSeries("实际压力");
         //2
-        xyseries.add(100, 0);//先输入一个数据让它绘出renderer
+        xyseries.add(X_MIN, 0);//先输入一个数据让它绘出renderer
         //3
         dataset.addSeries(0, xyseries);
         datarenderer.setColor(Color.GREEN);
@@ -248,10 +264,10 @@ public class MainActivity extends PressBaseActivity {
         //4
         renderer.addSeriesRenderer(datarenderer);
         //渲染的时候禁止用户操作（包括缩放和移动），不然容易报错
-        renderer.setPanEnabled(false);
+       /* renderer.setPanEnabled(false);
         renderer.setExternalZoomEnabled(false);
         renderer.setClickEnabled(false);
-        renderer.setZoomEnabled(false, false);
+        renderer.setZoomEnabled(false, false);*/
         //5
         context = getApplicationContext();
         chartview = ChartFactory.getLineChartView(context, dataset, renderer);
@@ -260,11 +276,14 @@ public class MainActivity extends PressBaseActivity {
         //设置按钮 用来记录尺寸的标准(value)和阈值(bound),然后再主界面显示出红线
 
         //绘出两条红线 分别用新的XYSeriesRenderer要不然会报错
-        xyseries_up = new XYSeries("最大压力");
+        
+        initStandardLine();
+        
+        /*xyseries_up = new XYSeries("最大压力");
         xyseries_down = new XYSeries("最小压力");
-        xyseries_up.add(100, value + normalTimes * bound);
+        xyseries_up.add(X_MIN, value + normalTimes * bound);
         xyseries_up.add(X_MAX, value + normalTimes * bound);
-        xyseries_down.add(100, value - normalTimes * bound);
+        xyseries_down.add(X_MIN, value - normalTimes * bound);
         xyseries_down.add(X_MAX, value - normalTimes * bound);
         dataset.addSeries(1, xyseries_up);
         dataset.addSeries(2, xyseries_down);
@@ -274,16 +293,64 @@ public class MainActivity extends PressBaseActivity {
         datarenderer_up.setColor(Color.RED);
         datarenderer_down = datarenderer_up;
         renderer.addSeriesRenderer(datarenderer_up);
-        renderer.addSeriesRenderer(datarenderer_down);
+        renderer.addSeriesRenderer(datarenderer_down);*/
         renderer.setYAxisMin(value - (boundTimes * bound));// Y最小值
         renderer.setYAxisMax(value + (boundTimes * bound));// Y最小值
         //设置chart的视图范围  参数//1x->start 2max 3y->start 4max 
         renderer.setRange(new double[]
-        {100d, (double) X_MAX, value - (boundTimes * bound), value + (boundTimes * bound)});
+        {(double)X_MIN, (double) X_MAX, value - (boundTimes * bound), value + (boundTimes * bound)});
         //  chartview.repaint();
+    }
+    
+    public void initStandardLine() {
+        for(int i=0;i < mArrayList.size();i++){
+            System.out.println("dddddd"+"");
+            PressInfo mInfo = mArrayList.get(i);
+            XYSeries mXySeries = new XYSeries("");
+            
+            mXySeries.add(currentStandardLength,mInfo.getPressValue());
+            mXySeries.add(currentStandardLength+mInfo.getPressTime(), mInfo.getPressValue());
+            
+            XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+            mRenderer.setColor(Color.RED);
+            dataset.addSeries(mXySeries);
+            renderer.addSeriesRenderer(mRenderer);
+            
+            /*if(i == 0 && mInfo.getPressTime() > X_MAX) {
+                mXySeries.add(currentStandardLength,mInfo.getPressValue());
+                mXySeries.add(X_MAX, mInfo.getPressValue());
+                
+                XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+                mRenderer.setColor(Color.RED);
+                dataset.addSeries(mXySeries);
+                renderer.addSeriesRenderer(mRenderer);
+                break;
+            }
+            
+            if(currentStandardLength <= X_MAX) {
+                mXySeries.add(currentStandardLength,mInfo.getPressValue());
+                mXySeries.add(currentStandardLength+mInfo.getPressTime(), mInfo.getPressValue());
+                
+                XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+                mRenderer.setColor(Color.RED);
+                dataset.addSeries(mXySeries);
+                renderer.addSeriesRenderer(mRenderer);
+            }else {
+                mXySeries.add(currentStandardLength-mInfo.getPressTime(),mInfo.getPressValue());
+                mXySeries.add(X_MAX, mInfo.getPressValue());
+                
+                XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+                mRenderer.setColor(Color.RED);
+                dataset.addSeries(mXySeries);
+                renderer.addSeriesRenderer(mRenderer);
+                break;
+            }*/
+            currentStandardLength += mInfo.getPressTime();
+        }
     }
 	public void initEvent() {
 	    connectPressDevice();
+	    pressThread.start();
 //	    setVisibility();
 	}
 	
@@ -329,38 +396,31 @@ public class MainActivity extends PressBaseActivity {
 	Handler chatHandler=new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+		    super.handleMessage(msg);
 //			Bundle b=msg.getData();
 //			double x=b.getDouble("part_X");
 //			double y=b.getDouble("part_Y");
 			chartview.invalidate();
-			super.handleMessage(msg);
+			
 //			 chartview.repaint();
 			//part_id1.setText(x);
 			//part_size1.setText(y);
 			 
             //步骤不能变 1先清除数据 2添加源数据 3添加数据
             
-            
-            
-            /*if(i*2>X_MAX)//延长X_MAX造成右移效果
+            if(currentStep >= X_MAX)//延长X_MAX造成右移效果
             {
-                X_MAX*=2;//按2倍速度延长 可以设置成speed
+                X_MIN += 5;
+                X_MAX += 5;//按2倍速度延长 可以设置成speed
                 renderer.setXAxisMax(X_MAX);// 设置X最大值
-                dataset.removeSeries(xyseries_up);
-                dataset.removeSeries(xyseries_down);
-                xyseries_up.add(X_MAX/2 , value+bound);
-                xyseries_up.add(X_MAX, value+bound);
-                xyseries_down.add(X_MAX/2, value-bound);
-                xyseries_down.add(X_MAX,value-bound);
-                dataset.addSeries(1,xyseries_up);
-                dataset.addSeries(2,xyseries_down);
+                renderer.setXAxisMin(X_MIN);
+                
 //                datarenderer_up = new XYSeriesRenderer();
 //                datarenderer_down = new XYSeriesRenderer();
 //                datarenderer_up.setColor(Color.RED);
 //                datarenderer_down=datarenderer_up;
-                renderer.addSeriesRenderer(datarenderer_up);
-                renderer.addSeriesRenderer(datarenderer_down);
-            }*/
+            }
+            
 		}
 	};
 	  Runnable PressRunnable = new Runnable() {
@@ -369,23 +429,33 @@ public class MainActivity extends PressBaseActivity {
 	            try {
 	                while (true)
 	                {
-	                    i = i + 100;
-	                    if (i > 1100) {
+	                    currentStep = currentStep + xGap;
+	                    System.out.println("currentStep"+currentStep);
+	                    /*if (i > 1100) {
 	                        i = 100;
 	                        xyseries.clear();
-	                    }
-	                    Thread.sleep(100);
-	                    addX = i;
+	                    }*/
+	                    Thread.sleep((int)timeInterval);
+	                    addX = currentStep;
 	                    //设置好下一个需要增加的节点
-	                  /*  b = new BigDecimal(((Math.random()) * bound * 4) - (2 * bound)); //转换
+	                    b = new BigDecimal(((Math.random()) * bound * 4) - (2 * bound)); //转换
 	                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 	                    //double+double再转一次
 	                    b = new BigDecimal(addY + value); //保留三位小数 四舍五入
-	                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();*/
+	                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 
 	                    dataset.removeSeries(xyseries);
+	                    for(int i=0;i<xyseries.getScaleNumber();i++) {
+                            oldX.add((double)xyseries.getX(i));
+                            oldY.add((double)xyseries.getY(i));
+                        }
+	                 // 点集先清空，为了做成新的点集而准备
+	                    
 	                    xyseries.add(addX, addY);
-	                    dataset.addSeries(0, xyseries);
+	                    for(int i=0;i<oldX.size();i++) {
+	                        xyseries.add(oldX.get(i),oldY.get(i));
+	                    }
+	                    dataset.addSeries(0,xyseries);
 	                    //传给hanlder
 	                    Message message = chatHandler.obtainMessage();
 	                    message.what = 1;//标志是哪个线程传数据  
