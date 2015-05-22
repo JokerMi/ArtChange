@@ -25,6 +25,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
     
     private Spinner sampleRateSpn;
     private EditText sampleRateEdtTxt;
+    private EditText loopEdtTxt;
     private ArrayAdapter sampleRateAdapter;
     private PressView pv1;
     private PressView pv2;
@@ -37,6 +38,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
     private static final int PV_NORMAL_AMOUNT = 2;
     private int pvCurrentAmount; 
     private String sampleRateStr;
+    private int loopAmount = 1; //用于绘制线条的次数,默认循环次数为1
     private static final int DEFAULT_PV1_VALUE = 30;
     private static final int DEFAULT_pv1_TIME = 60;
     private static final int DEFAULT_PV2_VALUE = 0;
@@ -58,6 +60,8 @@ public class InfoSetActivity extends Activity implements OnClickListener{
         sampleRateSpn.setVisibility(View.VISIBLE);
         
         sampleRateEdtTxt = (EditText)findViewById(R.id.edtTxt_sampleRate);
+        loopEdtTxt = (EditText)findViewById(R.id.edtTxt_loop);
+        loopEdtTxt.requestFocus();
         
         pressLineLay = (LinearLayout)findViewById(R.id.linelay_press);
         pv1 = (PressView) findViewById(R.id.pv1);
@@ -80,6 +84,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
         
         pvCurrentAmount = PV_NORMAL_AMOUNT;
         mArrayList = new ArrayList<PressInfo>();
+        
     }
     private void initEvent() {
         sampleRateSpn.setOnItemSelectedListener(new SpinnerSamplingRateListener());
@@ -108,13 +113,20 @@ public class InfoSetActivity extends Activity implements OnClickListener{
         switch (v.getId()) {
             case R.id.btn_comp:
                 mArrayList = getPressInfoList();
-                if(mArrayList.size() == 0) {
-                    Toast.makeText(InfoSetActivity.this, getResources().getString(R.string.add_press), Toast.LENGTH_SHORT).show();
+                if("".equals(loopEdtTxt.getText()+"")){
+                    Toast.makeText(InfoSetActivity.this, getResources().getString(R.string.loop_amount), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(mArrayList != null && mArrayList.size() == 0) {
+                    Toast.makeText(InfoSetActivity.this, getResources().getString(R.string.warning_info), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+               
+                loopAmount = Integer.valueOf(loopEdtTxt.getText()+"");
                 Intent mIntent = new Intent();
                 mIntent.putParcelableArrayListExtra("pressinfo", mArrayList);
                 mIntent.putExtra("sampleRate", sampleRateStr);
+                mIntent.putExtra("loopAmount", loopAmount);
                 mIntent.setClass(InfoSetActivity.this, MainActivity.class);
                 startActivity(mIntent);
                 break;
@@ -140,7 +152,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
         ArrayList<PressInfo> mList = new ArrayList<PressInfo>();
         for(int i=0;i <= pvCurrentAmount;i++) {
             PressView mPressView = (PressView)pressLineLay.getChildAt(i);
-            if(mPressView != null && !"".equals(mPressView.getPressValue()) && !"".equals(mPressView.getPressValue())) {
+            if(mPressView != null && !"".equals(mPressView.getPressValue()) && !"".equals(mPressView.getPressTime())) {
                 PressInfo mInfo = new PressInfo();
                 mInfo.setPressValue(Integer.valueOf(mPressView.getPressValue()));
                 mInfo.setPressTime(Integer.valueOf(mPressView.getPressTime()));

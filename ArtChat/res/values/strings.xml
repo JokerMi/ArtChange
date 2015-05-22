@@ -33,6 +33,8 @@
     <string name="real_press">真实压力</string>
     <string name="unconnect">未连接</string>
     <string name="no_getdata">暂未获取到数据</string>
+    <string name="clean_data">清 零</string>
+    <string name="voltage_values">电压值：</string>
     
      <string name="bt_not_enabled">本机无蓝牙</string>
     <string name="title_paired_devices">已配对设备</string>
@@ -54,10 +56,12 @@
     <string name="press_time">时间：</string>
     <string name="default_value">10</string>
     <string name="sampling_unit">HZ/S</string>
+    <string name="loop_cycle">循环次数：</string>
     
     <string name="comp_infoset">完成设置</string>
     <string name="add_press">添加压力</string>
     <string name="del_press">删除压力</string>
+    <string name="loop_amount">请输入循环次数</string>
     <string name="default_amount">默认个数为两个</string>
     <string name="warning_info">请至少设置一组数据</string>
 </resources>

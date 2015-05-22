@@ -89,6 +89,7 @@ public class DataProcess {
                             postDataStr = "0x";
                         }else if(dataChar[1] == '1') {
                             totalValue.add(postDataStr);
+                            
                             break;
                         }
                         break;
