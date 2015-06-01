@@ -26,16 +26,17 @@ import com.commlibrary.android.utils.CustomLog;
  * 
  */
 public class BluetoothService {
-    public static String sPin = "6666";
+    public static String sPin = "1234";
 	private final BluetoothAdapter mBtAdapter;// 蓝牙适配器
 	private final Handler handler;// 传递信息给界面的handler
 	private int state;// 蓝牙适配器的状态
 	private ConnectDeviceThread connectThread = null;// 连接线程
 	private ConnectReadThread connectedThread = null;// 蓝牙通道管理线程
 
-//	private static final String UUIDS = "00001101-0000-1000-8000-00805F9B34FB";//外部通用的蓝牙设备连接
+	private static final String UUIDS = "00001101-0000-1000-8000-00805F9B34FB";//外部通用的蓝牙设备连接
+	private static final UUID MY_UUID = UUID.fromString(UUIDS);
 	
-	private static final UUID MY_UUID = MyContents.BlueTools.MUUID;// 一般手机之间建立蓝牙连接的UUID
+//	private static final UUID MY_UUID = MyContents.BlueTools.MUUID;// 一般手机之间建立蓝牙连接的UUID
 
 	// 控制信息和状态
 	public static final int STATE_NONE       = 0x401180; // 空闲状态
@@ -534,6 +535,7 @@ public class BluetoothService {
 		/**
 		 * 
 		 */
+		@SuppressLint("NewApi")
 		private void initSocket() {
 			if(socket != null) {
 				return;
@@ -542,21 +544,25 @@ public class BluetoothService {
 			int sdkVersion = Build.VERSION.SDK_INT;
 			Method method = null;
 			try {
-//				if (false || sdkVersion >= 10) {// 10以上的使用不安全连接
-//					tempSocket = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
-//					method = device.getClass().getDeclaredMethod(
-//							"createInsecureRfcommSocket",
-//							new Class[] { int.class });
-//				} else {
-//					tempSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-//					method = device.getClass().getMethod("createRfcommSocket",
-//							new Class[] { int.class });
-//				}
-//				tempSocket = (BluetoothSocket) method.invoke(device, 1);
-			    Method m = device.getClass().getMethod( "createRfcommSocket", new Class[]{int.class});
-			    tempSocket = (BluetoothSocket) m.invoke( device, Integer.valueOf( 1));
+			    //第一种
+				/*if (false || sdkVersion >= 10) {// 10以上的使用不安全连接
+					tempSocket = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
+					method = device.getClass().getDeclaredMethod(
+							"createInsecureRfcommSocket",
+							new Class[] { int.class });
+				} else {
+					tempSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+					method = device.getClass().getMethod("createRfcommSocket",
+							new Class[] { int.class });
+				}
+				tempSocket = (BluetoothSocket) method.invoke(device, 1);*/
+			    
+			    //第二种
+//			    Method m = device.getClass().getMethod( "createRfcommSocket", new Class[]{int.class});
+//			    tempSocket = (BluetoothSocket) m.invoke( device, Integer.valueOf( 1));
 				
-//				tempSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+			    //第三种
+				tempSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
 			} 
 			catch (Exception e) {
 				CustomLog.e(TAG, "create() failed error=" + e.getMessage());
@@ -601,6 +607,7 @@ public class BluetoothService {
 		@Override
 		public void run() {
 			setState(STATE_CONNECTED);// 更新状态
+			System.out.println("STATE_CONNECTED");
 			while (!stop && isAsyn) {// 异步方式下，不停的读数据
 				read();
 			}

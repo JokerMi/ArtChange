@@ -52,11 +52,13 @@
     <string name="getdata">获取数据</string>
     
     <string name="sampling_rate">采样频率：</string>
-    <string name="press_value">压力值：</string>
-    <string name="press_time">时间：</string>
+    <string name="press_value">压力:</string>
+    <string name="press_time">时间:</string>
     <string name="default_value">10</string>
     <string name="sampling_unit">HZ/S</string>
     <string name="loop_cycle">循环次数：</string>
+    <string name="time_unit">s</string>
+    <string name="press_unit">kg</string>
     
     <string name="comp_infoset">完成设置</string>
     <string name="add_press">添加压力</string>

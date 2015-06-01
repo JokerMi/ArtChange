@@ -1,8 +1,6 @@
 package siat.ncu.press.main;
 
 
-
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +17,10 @@ import siat.ncu.press.bean.PressInfo;
 import siat.ncu.press.util.BluetoothCommunicateThread;
 import siat.ncu.press.util.BluetoothService;
 import siat.ncu.press.util.Cache;
+import siat.ncu.press.util.DataProcess;
+import siat.ncu.press.util.XYRenderer;
 import siat.ncu.press.util.MyContents.BlueTools;
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -94,7 +95,8 @@ public class MainActivity extends PressBaseActivity {
 	private double xGap;         //x轴的步长，等于1除以采样频率
 	private double timeInterval;   //时间间隔，用于线程睡眠，等于1000毫秒除以采样频率
 	private double time = 1000;   //1000毫秒
-	private int currentStandardLength ; //当前标准线的长度，绘制标准压力线时使用
+	private int currentStandardLength ; //当前的X，绘制横线时使用
+	private int currentVerticalX;    //当前的X，绘制竖线时使用
 	private ArrayList<PressInfo> mArrayList;
 	private ArrayList<Double> oldX;
 	private ArrayList<Double> oldY;
@@ -130,17 +132,15 @@ public class MainActivity extends PressBaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.linearLayout_clean:
-                    clearAll();
+//                    clearAll();
+                    calibration();
                     break;
                 case R.id.linearLayout_btooth:
                    if(isConnected()) {
                         Toast.makeText(MainActivity.this, "蓝牙已连接", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if(!pressThread.isAlive()) {
-                        pressThread.start();
-                    }
-//                    startDeviceListActivity();
+                    startDeviceListActivity();
                     break;
 
                 default:
@@ -148,6 +148,15 @@ public class MainActivity extends PressBaseActivity {
             }
         }
     };
+    
+    private double calibrationValue;
+    /**
+     * 在未开始测量前进行数据校准，得到校准值
+     */
+    public void calibration() {
+        
+    }
+    
     
     public void clearAll() {
         
@@ -178,6 +187,7 @@ public class MainActivity extends PressBaseActivity {
                 if(resultCode == DeviceScanActivity.RESULT_OK) {
                     String address = data.getExtras().getString(
                             DeviceScanActivity.EXTRA_DEVICE_ADDRESS);
+                    System.out.println("activity : address " + address);
                     connectPressDevice(address);
                 }
                 break;
@@ -238,6 +248,7 @@ public class MainActivity extends PressBaseActivity {
             case BluetoothService.MESSAGE_DEVICE:
                 btName = msg.getData().getString(BluetoothService.DEVICE_NAME);
                 btMac = msg.getData().getString(BluetoothService.DEVICE_ADDRESS);
+                System.out.println(btName+" BluetoothService.MESSAGE_DEVICE "+btMac);
                 cache.saveDeviceAddress(Cache.PressDevice, btMac);// 保存地址,以便下次自动连接
                 break;
 //          case Uploader.MESSAGE_UPLOADE_RESULT:
@@ -271,11 +282,12 @@ public class MainActivity extends PressBaseActivity {
         xGap = baseTime/sampleRateDouble;
         timeInterval = time/sampleRateDouble;
         currentStandardLength = 0;
+        currentVerticalX = 0;
         currentStep = 0;
         
         context = MainActivity.this;
         cache = new Cache(context);
-        mBluetoothService = BluetoothService.getService(btoothHandler, false);// 异步方式
+        mBluetoothService = BluetoothService.getService(btoothHandler, true);// 异步方式
         pressThread=new Thread(mPressRunnable); 
         
         oldX = new ArrayList<Double>();
@@ -283,23 +295,46 @@ public class MainActivity extends PressBaseActivity {
         addX = 0;
         addY = 0;
         
-        context = getApplicationContext();
         initChatDatas();
     }
     
+    private double totalPressValue;
+    private double voltageValue;
     protected void processReadData(byte[] readBuf) {
-        BigDecimal b = new BigDecimal(((Math.random()) * bound)); //转换
+        
+        resultArrayList = DataProcess.processReadData(readBuf);
+        
+        for(int i = 0;i<resultArrayList.size();i++){
+            
+            System.out.println("result = "+ resultArrayList.toString());
+            
+            if(resultArrayList.get(i).indexOf("0x") == -1) {
+                int value = Integer.parseInt(resultArrayList.get(i), 16);
+                double pressValue = DataProcess.countPressValue(value);
+                totalPressValue += pressValue;
+            }else {
+                String voltageStr = resultArrayList.get(i).substring(2);
+                addY = totalPressValue;
+                totalPressValue = 0;
+                int value = Integer.parseInt(voltageStr, 16);
+                voltageValue = DataProcess.countElectricValue(value);
+                voltageTv.setText(voltageValue+"");
+            }
+            
+        }
+        
+        /*BigDecimal b = new BigDecimal(((Math.random()) * bound)); //转换
         addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
         //double+double再转一次
         b = new BigDecimal(addY + value); //保留三位小数 四舍五入
-        addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();*/
     }
     
     @SuppressLint("NewApi")
     public void initChatDatas(){
       //No.1 设定大渲染器的属性
-        renderer = new XYRenderer("压力图", "时间(ms)", "压力(kg)", X_MIN, X_MAX, -1, 1, Color.GRAY, Color.LTGRAY, 16, 16, 15,
-                15, 10, 10, true);
+        renderer = new XYRenderer("压力图", "时间(s)", "压力(kg)", X_MIN, X_MAX, -1, 1, Color.GRAY, Color.LTGRAY, XYRenderer.TEXT_SIZE, XYRenderer.TEXT_SIZE, XYRenderer.TEXT_SIZE,
+                XYRenderer.TEXT_SIZE, 10, 10, true);
         dataset = new XYMultipleSeriesDataset();
         datarenderer = new XYSeriesRenderer();
 //        datarenderer.setDisplayChartValues(true);
@@ -310,6 +345,7 @@ public class MainActivity extends PressBaseActivity {
         dataset.addSeries(0, xyseries);
         datarenderer.setColor(Color.GREEN);
         datarenderer.setPointStyle(PointStyle.POINT);
+        datarenderer.setLineWidth(4.0f);
         //4
         renderer.addSeriesRenderer(datarenderer);
         renderer.setShowLegend(false);
@@ -378,42 +414,21 @@ public class MainActivity extends PressBaseActivity {
     }
     
     public void initStandardLine() {
+        //初始化横线
         for(int i=0;i < mArrayList.size();i++){
             PressInfo mInfo = mArrayList.get(i);
-            
+            //因为一次能画出的最大值为30，所以如果需要画的值大于30，则分几次画
             if(mInfo.getPressTime() > max_Interval) {
                 for(int j=0;j < mInfo.getPressTime()/max_Interval;j++) {
-                    XYSeries mSeries = new XYSeries("");
-                    mSeries.add(currentStandardLength,mInfo.getPressValue());
-                    mSeries.add(currentStandardLength+max_Interval, mInfo.getPressValue());
+                    initBaseLine(currentStandardLength, mInfo.getPressValue(), currentStandardLength+max_Interval, mInfo.getPressValue());
                     currentStandardLength += max_Interval;
-                    XYSeriesRenderer mRenderer = new XYSeriesRenderer();
-                    mRenderer.setColor(Color.RED);
-                    mRenderer.setLineWidth(4.0f);
-                    dataset.addSeries(mSeries);
-                    renderer.addSeriesRenderer(mRenderer);
                 }
                 if(mInfo.getPressTime()%max_Interval != 0) {
-                    XYSeries mSeries = new XYSeries("");
-                    mSeries.add(currentStandardLength,mInfo.getPressValue());
-                    mSeries.add(currentStandardLength+mInfo.getPressTime()%max_Interval, mInfo.getPressValue());
+                    initBaseLine(currentStandardLength, mInfo.getPressValue(), currentStandardLength+mInfo.getPressTime()%max_Interval, mInfo.getPressValue());
                     currentStandardLength += mInfo.getPressTime()%max_Interval;
-                    XYSeriesRenderer mRenderer = new XYSeriesRenderer();
-                    mRenderer.setColor(Color.RED);
-                    mRenderer.setLineWidth(4.0f);
-                    dataset.addSeries(mSeries);
-                    renderer.addSeriesRenderer(mRenderer);
                 }
             }else {
-                XYSeries mXySeries = new XYSeries("");
-                mXySeries.add(currentStandardLength,mInfo.getPressValue());
-                mXySeries.add(currentStandardLength+mInfo.getPressTime(), mInfo.getPressValue());
-                
-                XYSeriesRenderer mRenderer = new XYSeriesRenderer();
-                mRenderer.setColor(Color.RED);
-                mRenderer.setLineWidth(4.0f);
-                dataset.addSeries(mXySeries);
-                renderer.addSeriesRenderer(mRenderer);
+                initBaseLine(currentStandardLength, mInfo.getPressValue(), currentStandardLength+mInfo.getPressTime(), mInfo.getPressValue());
                 currentStandardLength += mInfo.getPressTime();
             }
             /*if(i == 0 && mInfo.getPressTime() > X_MAX) {
@@ -447,9 +462,28 @@ public class MainActivity extends PressBaseActivity {
             }*/
            
         }
+        //初始化竖线
+        for(int i = 0; i < mArrayList.size() - 1;i++) {
+            currentVerticalX += mArrayList.get(i).getPressTime();
+            initBaseLine(currentVerticalX, mArrayList.get(i).getPressValue(), currentVerticalX, mArrayList.get(i+1).getPressValue());
+           
+        }
     }
+    
+    public void initBaseLine(double startX, double startY, double endX, double endY ) {
+        XYSeries mXySeries = new XYSeries("");
+        mXySeries.add(startX,startY);
+        mXySeries.add(endX, endY);
+        
+        XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+        mRenderer.setColor(Color.RED);
+        mRenderer.setLineWidth(2.0f);
+        dataset.addSeries(mXySeries);
+        renderer.addSeriesRenderer(mRenderer);
+    }
+    
 	public void initEvent() {
-	    connectPressDevice();
+//	    connectPressDevice();
 //	    pressThread.start();
 //	    setVisibility();
 	}
@@ -477,12 +511,16 @@ public class MainActivity extends PressBaseActivity {
     private void connectPressDevice() {
         if (mBluetoothService.getState() == BluetoothService.STATE_NONE) {// 空闲状态才连接
             String address = cache.getDeviceAddress(Cache.PressDevice);
-            btMac = address;
-            BluetoothDevice device = mBluetoothService
-                    .getBondedDeviceByAddress(address);
-            if (device != null) {
+            System.out.println("address = " + address);
+            if(address != null) {
+                btMac = address;
+                BluetoothDevice device = mBluetoothService
+                        .getRemoteDeviceByAddress(address);
+                if(device != null) {
                 btName = device.getName();
+                System.out.println("btName = " +btName);
                 mBluetoothService.connect(device);
+                }
             }
         }
     }
@@ -529,7 +567,7 @@ public class MainActivity extends PressBaseActivity {
         }
         public void run() {
             try {
-                while (flag) {
+                while (flag && BluetoothService.STATE_CONNECTED == mBluetoothService.getState()) {
                     currentStep = currentStep + xGap;
                     System.out.println("currentStep"+currentStep);
                     /*if (i > 1100) {
@@ -539,11 +577,12 @@ public class MainActivity extends PressBaseActivity {
                     Thread.sleep((int)timeInterval);
                     addX = currentStep;
                     //设置好下一个需要增加的节点
-                    b = new BigDecimal(((Math.random()) * bound)); //转换
-                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    //double+double再转一次
-                    b = new BigDecimal(addY + value); //保留三位小数 四舍五入
-                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    
+//                    b = new BigDecimal(((Math.random()) * bound)); //转换
+//                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+//                    //double+double再转一次
+//                    b = new BigDecimal(addY + value); //保留三位小数 四舍五入
+//                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 
                     // 步骤不能变 1先清除数据 2保存原来的数据 3添加新数据 4添加原来的数据 5添加所有数据 
                     //1
@@ -643,18 +682,20 @@ public class MainActivity extends PressBaseActivity {
     };*/
 	    protected void onStop() {
 	        pressThread.interrupt();
-	        dataset.clear();
-	        renderer.removeAllRenderers();
-	        chartLineLay.removeAllViews();
-	        chartLineLay = null;
+//	        dataset.clear();
+//	        renderer.removeAllRenderers();
+//	        chartLineLay.removeAllViews();
+//	        chartLineLay = null;
 	        super.onStop();
 	    };
 		@Override
 		protected void onDestroy() {
 			pressThread.interrupt();
-			dataset.clear();
-            renderer.removeAllRenderers();
+			BluetoothService.close();
+//			dataset.clear();
+//            renderer.removeAllRenderers();
 			System.out.println("destory");
+			
 			super.onDestroy();
 		}
 }

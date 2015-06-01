@@ -788,17 +788,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int StopBluttooth=0x7f0c0014;
         public static final int UnableToStartServiceDiscovery=0x7f0c000f;
         public static final int action_settings=0x7f0c0001;
-        public static final int add_press=0x7f0c0033;
+        public static final int add_press=0x7f0c0035;
         public static final int app_name=0x7f0c0000;
         public static final int bt_not_enabled=0x7f0c0020;
         public static final int button_scan=0x7f0c0027;
         public static final int clean_data=0x7f0c001e;
         public static final int close=0x7f0c0004;
-        public static final int comp_infoset=0x7f0c0032;
+        public static final int comp_infoset=0x7f0c0034;
         public static final int connecting=0x7f0c0029;
-        public static final int default_amount=0x7f0c0036;
+        public static final int default_amount=0x7f0c0038;
         public static final int default_value=0x7f0c002f;
-        public static final int del_press=0x7f0c0034;
+        public static final int del_press=0x7f0c0036;
         public static final int device_connected=0x7f0c0028;
         public static final int discovery=0x7f0c0015;
         public static final int ecg_choose=0x7f0c000a;
@@ -814,7 +814,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int getDataing=0x7f0c002a;
         public static final int getdata=0x7f0c002b;
         public static final int hello_world=0x7f0c0002;
-        public static final int loop_amount=0x7f0c0035;
+        public static final int loop_amount=0x7f0c0037;
         public static final int loop_cycle=0x7f0c0031;
         public static final int no_getdata=0x7f0c001d;
         public static final int none_found=0x7f0c0025;
@@ -822,6 +822,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int open=0x7f0c0003;
         public static final int openBT=0x7f0c0005;
         public static final int press_time=0x7f0c002e;
+        public static final int press_unit=0x7f0c0033;
         public static final int press_value=0x7f0c002d;
         public static final int real_press=0x7f0c001b;
         public static final int sampling_rate=0x7f0c002c;
@@ -829,13 +830,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int scanning=0x7f0c0023;
         public static final int select_device=0x7f0c0024;
         public static final int standard_press=0x7f0c001a;
+        public static final int time_unit=0x7f0c0032;
         public static final int title_other_devices=0x7f0c0022;
         public static final int title_paired_devices=0x7f0c0021;
         public static final int unconnect=0x7f0c001c;
         public static final int voltage_values=0x7f0c001f;
         public static final int wait=0x7f0c0017;
         public static final int warn=0x7f0c0016;
-        public static final int warning_info=0x7f0c0037;
+        public static final int warning_info=0x7f0c0039;
     }
     public static final class style {
         public static final int Animation_Dialog=0x7f0a0009;

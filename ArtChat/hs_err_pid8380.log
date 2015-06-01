@@ -1,0 +1,87 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:2923), pid=8380, tid=10108
+#  Error: ShouldNotReachHere()
+#
+# Java VM: Java HotSpot(TM) Client VM (11.0-b15 mixed mode windows-x86)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x001da000):  JavaThread "Unknown thread" [_thread_in_vm, id=10108, stack(0x002a0000,0x002f0000)]
+
+Stack: [0x002a0000,0x002f0000]
+
+[error occurred during error reporting (printing native stack), id 0xc0000005]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x001da000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=10108, stack(0x002a0000,0x002f0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	D:\Java\jre6\bin\javaw.exe
+0x77d80000 - 0x77f00000 	C:\Windows\SysWOW64\ntdll.dll
+0x75cc0000 - 0x75dd0000 	C:\Windows\syswow64\kernel32.dll
+0x775b0000 - 0x775f7000 	C:\Windows\syswow64\KERNELBASE.dll
+0x77510000 - 0x775b0000 	C:\Windows\syswow64\ADVAPI32.dll
+0x75dd0000 - 0x75e7c000 	C:\Windows\syswow64\msvcrt.dll
+0x76fe0000 - 0x76ff9000 	C:\Windows\SysWOW64\sechost.dll
+0x758e0000 - 0x759d0000 	C:\Windows\syswow64\RPCRT4.dll
+0x75720000 - 0x75780000 	C:\Windows\syswow64\SspiCli.dll
+0x75710000 - 0x7571c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x75ad0000 - 0x75bd0000 	C:\Windows\syswow64\USER32.dll
+0x77240000 - 0x772d0000 	C:\Windows\syswow64\GDI32.dll
+0x772f0000 - 0x772fa000 	C:\Windows\syswow64\LPK.dll
+0x77470000 - 0x7750d000 	C:\Windows\syswow64\USP10.dll
+0x75bd0000 - 0x75c30000 	C:\Windows\system32\IMM32.DLL
+0x76af0000 - 0x76bbc000 	C:\Windows\syswow64\MSCTF.dll
+0x7c340000 - 0x7c396000 	D:\Java\jre6\bin\msvcr71.dll
+0x6d800000 - 0x6da56000 	D:\Java\jre6\bin\client\jvm.dll
+0x72d50000 - 0x72d82000 	C:\Windows\system32\WINMM.dll
+0x719e0000 - 0x71a2c000 	C:\Windows\system32\apphelp.dll
+0x6d280000 - 0x6d288000 	D:\Java\jre6\bin\hpi.dll
+0x75e80000 - 0x75e85000 	C:\Windows\syswow64\PSAPI.DLL
+0x6d7b0000 - 0x6d7bc000 	D:\Java\jre6\bin\verify.dll
+0x6d320000 - 0x6d33f000 	D:\Java\jre6\bin\java.dll
+0x6d7f0000 - 0x6d7ff000 	D:\Java\jre6\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=GBK -Xbootclasspath:E:\adt-bundle-windows-x86-20130219\sdk\platforms\android-17\android.jar 
+java_command: siat.ncu.press.util.DataProcess
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=D:\Java\jdk1.6.0_10
+CLASSPATH=.;D:\Java\jdk1.6.0_10\lib;D:\Java\jdk1.6.0_10\lib\tools.jar
+PATH=D:/Java/jre6/bin/client;D:/Java/jre6/bin;D:/Java/jre6/lib/i386;D:\Program Files (x86)\SPSSInc\Clementine12.0\bin\;C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Program Files\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Intel\OpenCL SDK\3.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\3.0\bin\x64;d:\Program Files (x86)\Rational\Common;D:\Java\jdk1.6.0_10\bin;D:\Java\jdk1.6.0_10\jre\bin;D:\Program Files\TortoiseSVN\bin;d:\Program Files\MATLAB\R2012b\runtime\win64;d:\Program Files\MATLAB\R2012b\bin;D:\Program Files (x86)\python;D:\Program Files (x86)\Microsoft Visual Studio\Common\Tools\WinNT;D:\Program Files (x86)\Microsoft Visual Studio\Common\MSDev98\Bin;D:\Program Files (x86)\Microsoft Visual Studio\Common\Tools;D:\Program Files (x86)\Microsoft Visual Studio\VC98\bin;E:\adt-bundle-windows-x86-20130219\eclipse;
+USERNAME=joker
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows NT 6.1 Build 7601 Service Pack 1
+
+CPU:total 4 (8 cores per cpu, 2 threads per core) family 6 model 5 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, ht
+
+Memory: 4k page, physical 4079984k(1110280k free), swap 4194303k(3163776k free)
+
+vm_info: Java HotSpot(TM) Client VM (11.0-b15) for windows-x86 JRE (1.6.0_10-rc2-b32), built on Sep 12 2008 00:52:11 by "java_re" with MS VC++ 7.1
+
+time: Sun May 31 17:30:01 2015
+elapsed time: 0 seconds
+

@@ -37,7 +37,7 @@ public class Cache {
 
 	public Cache(Context context) {
 		this.context = context;
-		sharedPrefrences = context.getSharedPreferences("padhealth",
+		sharedPrefrences = context.getSharedPreferences("siatPress",
 				Context.MODE_PRIVATE);
 		editor = sharedPrefrences.edit();
 	}

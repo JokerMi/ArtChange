@@ -1,5 +1,6 @@
 package siat.ncu.press.main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import siat.ncu.press.util.BluetoothService;
@@ -35,6 +36,7 @@ public abstract class PressBaseActivity extends Activity {
 	protected BluetoothService mBluetoothService;
 	protected boolean isHaveMeasureData;
 	
+	protected ArrayList<String> resultArrayList = new ArrayList<String>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public abstract class PressBaseActivity extends Activity {
 	 * 
 	 * @param address
 	 */
-	protected void connectDevice(String address) {
+	/*protected void connectDevice(String address) {
 		if(mBluetoothService == null) {
 			mBluetoothService = BluetoothService.getService(mMeasureHandler, true); // “Ï≤Ω∑Ω Ω
 		}
@@ -67,7 +69,7 @@ public abstract class PressBaseActivity extends Activity {
 		else {
 			mBluetoothService.connect(address);
 		}
-	}
+	}*/
 	
 	/**
 	 * 
