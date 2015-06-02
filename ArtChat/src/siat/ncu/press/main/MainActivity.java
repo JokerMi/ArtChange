@@ -1,6 +1,7 @@
 package siat.ncu.press.main;
 
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import siat.ncu.press.util.BluetoothCommunicateThread;
 import siat.ncu.press.util.BluetoothService;
 import siat.ncu.press.util.Cache;
 import siat.ncu.press.util.DataProcess;
+import siat.ncu.press.util.FileUtil;
 import siat.ncu.press.util.XYRenderer;
 import siat.ncu.press.util.MyContents.BlueTools;
 import android.R.integer;
@@ -28,6 +30,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.DragEvent;
@@ -53,6 +56,7 @@ public class MainActivity extends PressBaseActivity {
 
     private LinearLayout topLineLay;
     private LinearLayout btoothLinLay;
+    private LinearLayout saveLinLay;
     private LinearLayout cleanLinLay;
     private ImageView btoothState;
     private TextView btoothName;
@@ -104,6 +108,8 @@ public class MainActivity extends PressBaseActivity {
     private int max_Interval = 30; //能画出的最大的时间间隔
     private int loopAmount;
     private PressRunnable mPressRunnable;
+    private boolean isAppend = true;
+    private boolean sdCardExist = false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //无title
@@ -116,9 +122,11 @@ public class MainActivity extends PressBaseActivity {
     }
     public void initView() {
         topLineLay  = (LinearLayout)findViewById(R.id.linLay_top);
-        cleanLinLay =(LinearLayout)findViewById(R.id.linearLayout_clean);
+        cleanLinLay = (LinearLayout)findViewById(R.id.linearLayout_cleanData);
+        saveLinLay =(LinearLayout)findViewById(R.id.linearLayout_save);
         btoothLinLay = (LinearLayout)findViewById(R.id.linearLayout_btooth);
         voltageTv = (TextView)findViewById(R.id.tV_voltage);
+        saveLinLay.setOnClickListener(myClickListener);
         cleanLinLay.setOnClickListener(myClickListener);
         btoothLinLay.setOnClickListener(myClickListener);
         
@@ -132,8 +140,25 @@ public class MainActivity extends PressBaseActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.linearLayout_clean:
-                    calibration();
+                case R.id.linearLayout_cleanData:
+                    //清除保存的数据，包括内存和sd卡数据
+                    if(cleanSaveData()){
+                        ToastManager.showToast(context, R.string.clean_success);
+                    }else {
+                        ToastManager.showToast(context, R.string.clean_fail);
+                    }
+                    break;
+                case R.id.linearLayout_save:
+                    if(resultArrayList == null || resultArrayList.size() == 0) {
+                        ToastManager.showToast(context, R.string.no_save_data);
+                        return;
+                    }
+                    if(!sdCardExist) {
+                        ToastManager.showToast(context, R.string.no_sdcard);
+                        return;
+                    }
+                    //如果SD卡存在，则将内存中数据复制到SD卡中
+                    saveDataToSD();
                     break;
                 case R.id.linearLayout_btooth:
                    if(isConnected()) {
@@ -151,13 +176,32 @@ public class MainActivity extends PressBaseActivity {
     
     private double calibrationValue;
     /**
-     * 在未开始测量前进行数据校准，得到校准值
+     * 保存压力数据
      */
-    public void calibration() {
-        
+    public void saveDataToSD() {
+        try {
+            FileUtil.writeFile(FileUtil.RAMPATH , FileUtil.SDPATH, isAppend);
+            ToastManager.showToast(context, R.string.save_success);
+        }
+        catch (IOException e) {
+            ToastManager.showToast(context, R.string.save_fail);
+            e.printStackTrace();
+        }
     }
     
-    
+    public boolean cleanSaveData() {
+        boolean isDelSuccess = false;
+        try {
+            FileUtil.delFile(FileUtil.RAMPATH);
+            if(sdCardExist) {
+                FileUtil.delFile(FileUtil.SDPATH);
+            }
+            isDelSuccess = true;
+        }
+        catch (Exception e) {
+        }
+        return isDelSuccess;
+    }
     public void clearAll() {
         
         mPressRunnable = null;
@@ -210,6 +254,7 @@ public class MainActivity extends PressBaseActivity {
                 case BluetoothService.STATE_CONNECTED:
                     btoothState.setImageResource(R.drawable.id_bluetooth_connect);
                     btoothName.setText(btName);
+//                    setRenderEnable();
                     ToastManager.showToast(context, "已连接到   " + btName);
                     break;
                 case BluetoothService.STATE_CONNECTING:
@@ -219,6 +264,7 @@ public class MainActivity extends PressBaseActivity {
                 case BluetoothService.STATE_NONE:
                     btoothName.setText(R.string.unconnect);
                     btoothState.setImageResource(R.drawable.id_bluetooth_unconnect);
+//                    setRenderEnable();
                     if(pressThread.isAlive()) {
                         isThreadPause = true;
                         voltageTv.setText("0");
@@ -304,15 +350,22 @@ public class MainActivity extends PressBaseActivity {
         addX = 0;
         addY = 0;
         
+        sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
+        if (sdCardExist) {
+          //创建存放数据的sdcard目录
+            FileUtil.createDir(FileUtil.DIRPATH);
+        }
+        
         initChatDatas();
     }
     
     private double totalPressValue;
     private double voltageValue;
+    private boolean isFirstProcess = true;
     protected void processReadData(byte[] readBuf) {
         
         resultArrayList = DataProcess.processReadData(readBuf);
-        
+        String dataLine = "";
         for(int i = 0;i<resultArrayList.size();i++){
             
             System.out.println("result = "+ resultArrayList.toString());
@@ -324,10 +377,22 @@ public class MainActivity extends PressBaseActivity {
             }else {
                 String voltageStr = resultArrayList.get(i).substring(2);
                 addY = totalPressValue;
+                if(isFirstProcess) {
+                    isFirstProcess = false;
+                    calibrationValue = addY;
+//                    dataLine = "压力值" + "\t" + "电压值" + "\r\n";
+//                    writeStrContent(dataLine);
+                }
+                addY = addY - calibrationValue;
+                addY = DataProcess.getTransData(addY);
                 totalPressValue = 0;
                 int value = Integer.parseInt(voltageStr, 16);
                 voltageValue = DataProcess.countElectricValue(value);
                 voltageTv.setText(voltageValue+"");
+                
+                dataLine = Math.abs(addY) +"\t  "+voltageValue+"\r\n";
+                System.out.println("dataLine = " + dataLine);
+                writeStrContent(dataLine);
             }
             
         }
@@ -339,6 +404,28 @@ public class MainActivity extends PressBaseActivity {
         addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();*/
     }
     
+    /**
+     * 将字符串数据写入内存中
+     * @param dataStr
+     */
+    public void writeStrContent(String dataStr) {
+        try {
+            FileUtil.writeContent(dataStr, FileUtil.RAMPATH, isAppend);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setRenderEnable() {
+        boolean isEnable;
+        if(isConnected()) {
+            isEnable = false;
+            chartLineLay.setClickable(isEnable);
+        }else {
+            isEnable = true;
+            chartLineLay.setClickable(isEnable);
+        }
+    }
     @SuppressLint("NewApi")
     public void initChatDatas(){
       //No.1 设定大渲染器的属性
@@ -357,12 +444,19 @@ public class MainActivity extends PressBaseActivity {
         datarenderer.setLineWidth(4.0f);
         //4
         renderer.addSeriesRenderer(datarenderer);
+        new Thread(){
+            public void run() {
+                for(int i=0;i<loopAmount;i++) {
+                    initStandardLine();
+                }
+            };
+        }.start();
         renderer.setShowLegend(false);
-        //渲染的时候禁止用户操作（包括缩放和移动），不然容易报错
-       /* renderer.setPanEnabled(false);
+        //刚开始渲染的时候禁止用户操作（包括缩放和移动），不然容易报错
+        renderer.setPanEnabled(true);
         renderer.setExternalZoomEnabled(false);
         renderer.setClickEnabled(false);
-        renderer.setZoomEnabled(false, false);*/
+        renderer.setZoomEnabled(false, false);
         //5
         
         
@@ -370,9 +464,7 @@ public class MainActivity extends PressBaseActivity {
         //设置按钮 用来记录尺寸的标准(value)和阈值(bound),然后再主界面显示出红线
 
         //绘出两条红线 分别用新的XYSeriesRenderer要不然会报错
-        for(int i=0;i<loopAmount;i++) {
-            initStandardLine();
-        }
+   
         
         /*xyseries_up = new XYSeries("最大压力");
         xyseries_down = new XYSeries("最小压力");
@@ -394,32 +486,19 @@ public class MainActivity extends PressBaseActivity {
         //设置chart的视图范围  参数//1x->start 2max 3y->start 4max 
         renderer.setRange(new double[]
         {(double)X_MIN, (double) X_MAX, value - (boundTimes * bound), value + (boundTimes * bound)});
+        
         chartview = ChartFactory.getLineChartView(context, dataset, renderer);
         chartLineLay.addView(chartview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         
-        chartview.setOnDragListener(new OnDragListener() {
+        chartview.setOnTouchListener(new View.OnTouchListener(){
             @Override
-            public boolean onDrag(View v, DragEvent event) {
+            public boolean onTouch(View v, MotionEvent event)  {
                 topLineLay.invalidate();
-                return true;
+                System.out.println("touchhhhh");
+                return false;
             }
         });
-        chartview.setOnHoverListener(new OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                topLineLay.invalidate();
-                return true;
-            }
-        });
-        chartview.setOnGenericMotionListener(new OnGenericMotionListener() {
-            
-            @Override
-            public boolean onGenericMotion(View v, MotionEvent event) {
-                topLineLay.invalidate();
-                return true;
-            }
-        });
-//        chartview.repaint();
+        chartview.repaint();
     }
     
     public void initStandardLine() {
@@ -492,6 +571,8 @@ public class MainActivity extends PressBaseActivity {
     }
     
     public void initEvent() {
+        topLineLay.invalidate();
+//        chartview.setClickable(true);
 //      connectPressDevice();
 //      pressThread.start();
 //      setVisibility();

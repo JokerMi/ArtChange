@@ -8,27 +8,27 @@ package com.commlibrary.android;
 
 public final class R {
 	public static final class id {
-		public static final int dialog_generic_btn_button3 = 0x7f050024;
-		public static final int dialog_generic_btn_button2 = 0x7f050023;
-		public static final int dialog_generic_layout_top = 0x7f05001b;
-		public static final int dialog_generic_view_titleline = 0x7f05001e;
-		public static final int arrow = 0x7f05002d;
-		public static final int dialog_generic_btn_button1 = 0x7f050022;
-		public static final int dialog_generic_htv_message = 0x7f050020;
-		public static final int dialog_generic_layout_content = 0x7f05001f;
-		public static final int dialog_generic_layout_root = 0x7f05001a;
-		public static final int title = 0x7f05002f;
-		public static final int progerssbar = 0x7f05002e;
+		public static final int dialog_generic_btn_button3 = 0x7f050026;
+		public static final int dialog_generic_btn_button2 = 0x7f050025;
+		public static final int dialog_generic_layout_top = 0x7f05001d;
+		public static final int dialog_generic_view_titleline = 0x7f050020;
+		public static final int arrow = 0x7f05002f;
+		public static final int dialog_generic_btn_button1 = 0x7f050024;
+		public static final int dialog_generic_htv_message = 0x7f050022;
+		public static final int dialog_generic_layout_content = 0x7f050021;
+		public static final int dialog_generic_layout_root = 0x7f05001c;
+		public static final int title = 0x7f050031;
+		public static final int progerssbar = 0x7f050030;
 		public static final int triangle = 0x7f050001;
-		public static final int updated = 0x7f050030;
-		public static final int dialog_generic_htv_title = 0x7f05001d;
+		public static final int updated = 0x7f050032;
+		public static final int dialog_generic_htv_title = 0x7f05001f;
 		public static final int underline = 0x7f050002;
 		public static final int bottom = 0x7f050003;
 		public static final int none = 0x7f050000;
-		public static final int loadingdialog_htv_text = 0x7f050025;
-		public static final int dialog_generic_layout_bottom = 0x7f050021;
+		public static final int loadingdialog_htv_text = 0x7f050027;
+		public static final int dialog_generic_layout_bottom = 0x7f050023;
 		public static final int top = 0x7f050004;
-		public static final int dialog_generic_layout_title = 0x7f05001c;
+		public static final int dialog_generic_layout_title = 0x7f05001e;
 	}
 	public static final class anim {
 		public static final int controller_exit = 0x7f040001;

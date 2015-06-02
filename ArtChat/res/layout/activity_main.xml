@@ -9,7 +9,7 @@
 	    android:layout_weight="1"
 	    android:id="@+id/linLay_top"
 	    >
-	    <LinearLayout android:id="@+id/linearLayout_clean"
+	     <LinearLayout android:id="@+id/linearLayout_cleanData"
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="wrap_content"
@@ -19,16 +19,37 @@
 	     <ImageView
             android:layout_width="@dimen/topImg_width"
             android:layout_height="@dimen/topImg_height"
-            android:src="@drawable/trash_empty" >
+            android:src="@drawable/clean_empty" >
         </ImageView>
 	    <TextView
-            android:id="@+id/tV_clean"
+            android:id="@+id/tV_cleanData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clean_data"
+            android:text="@string/clean"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+		</LinearLayout>	
+	    
+	    <LinearLayout android:id="@+id/linearLayout_save"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	     <ImageView
+            android:layout_width="@dimen/topImg_width"
+            android:layout_height="@dimen/topImg_height"
+            android:src="@drawable/ic_confirm_nomal" >
+        </ImageView>
+	    <TextView
+            android:id="@+id/tV_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
             android:textSize="@dimen/font_text_medium" 
             android:textColor="@android:color/white"/>
 		</LinearLayout>	    
+		    
 	    <LinearLayout android:id="@+id/linearLayout_btooth"
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
@@ -63,7 +84,7 @@
             android:text="@string/voltage_values"
             android:textSize="@dimen/font_text_medium" 
             android:textColor="@android:color/white"/>
-	    <TextView
+	     <TextView
             android:id="@+id/tV_voltage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

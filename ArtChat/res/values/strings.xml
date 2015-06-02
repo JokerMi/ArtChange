@@ -33,7 +33,15 @@
     <string name="real_press">真实压力</string>
     <string name="unconnect">未连接</string>
     <string name="no_getdata">暂未获取到数据</string>
-    <string name="clean_data">清 零</string>
+    <string name="save">保 存</string>
+    <string name="clean">清 除</string>
+    <string name="clean_success">数据清除成功</string>
+    <string name="clean_fail">数据清除失败</string>
+    <string name="no_sdcard">SD卡不存在，数据将保存在手机内存中</string>
+    <string name="no_link_bluetooth">蓝牙设备未连接，请连接蓝牙设备</string>
+    <string name="no_save_data">无数据需要保存</string>
+    <string name="save_success">数据保存成功</string>
+    <string name="save_fail">数据保存失败</string>
     <string name="voltage_values">电压值：</string>
     
      <string name="bt_not_enabled">本机无蓝牙</string>
