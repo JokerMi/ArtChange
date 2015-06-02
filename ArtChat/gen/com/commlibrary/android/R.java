@@ -214,28 +214,28 @@ public final class R {
 		public static final int ProgressWheel_pwradius = 9;
 	}
 	public static final class drawable {
-		public static final int vpi_tab_selected_pressed_holo = 0x7f020021;
-		public static final int vpi_tab_indicator = 0x7f02001e;
-		public static final int edittext_default = 0x7f02000c;
-		public static final int vpi_tab_selected_holo = 0x7f020020;
-		public static final int list_selector_transition = 0x7f020018;
-		public static final int vpi_tab_unselected_holo = 0x7f020023;
-		public static final int edittext_normal_focus = 0x7f02000d;
-		public static final int ic_pulltorefresh_arrow = 0x7f020014;
+		public static final int vpi_tab_selected_pressed_holo = 0x7f020023;
+		public static final int vpi_tab_indicator = 0x7f020020;
+		public static final int edittext_default = 0x7f02000d;
+		public static final int vpi_tab_selected_holo = 0x7f020022;
+		public static final int list_selector_transition = 0x7f02001a;
+		public static final int vpi_tab_unselected_holo = 0x7f020025;
+		public static final int edittext_normal_focus = 0x7f02000e;
+		public static final int ic_pulltorefresh_arrow = 0x7f020016;
 		public static final int btn_big_normal_normal = 0x7f020003;
 		public static final int btn_big_normal_press = 0x7f020004;
-		public static final int vpi_tab_unselected_pressed_holo = 0x7f020024;
-		public static final int ic_pulltorefresh_arrow2 = 0x7f020015;
+		public static final int vpi_tab_unselected_pressed_holo = 0x7f020026;
+		public static final int ic_pulltorefresh_arrow2 = 0x7f020017;
 		public static final int bg_popwindow = 0x7f020001;
-		public static final int vpi_tab_selected_focused_holo = 0x7f02001f;
-		public static final int point_2 = 0x7f02001b;
+		public static final int vpi_tab_selected_focused_holo = 0x7f020021;
+		public static final int point_2 = 0x7f02001d;
 		public static final int btn_default = 0x7f020005;
-		public static final int point_1 = 0x7f02001a;
-		public static final int vpi_tab_unselected_focused_holo = 0x7f020022;
-		public static final int transparent = 0x7f020025;
+		public static final int point_1 = 0x7f02001c;
+		public static final int vpi_tab_unselected_focused_holo = 0x7f020024;
+		public static final int transparent = 0x7f020027;
 		public static final int btn_big_normal_disable = 0x7f020002;
-		public static final int edittext_normal_normal = 0x7f02000e;
-		public static final int edittext_normal_press = 0x7f02000f;
+		public static final int edittext_normal_normal = 0x7f02000f;
+		public static final int edittext_normal_press = 0x7f020010;
 	}
 	public static final class attr {
 		public static final int footerIndicatorStyle = 0x7f01002c;

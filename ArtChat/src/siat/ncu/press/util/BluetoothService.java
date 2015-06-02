@@ -644,6 +644,7 @@ public class BluetoothService {
 //				if (tryTime < 0) {
 				if (stop || (tryTime < 0 && inStream.available() <= 0)) {
 //					ConnectReadThread.sleep(500);
+				    connectionLost();
 					return;
 				}
 				byte[] buffer = new byte[256]; //

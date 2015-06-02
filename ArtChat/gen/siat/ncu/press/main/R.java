@@ -656,7 +656,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int achartengine=0x7f020000;
         public static final int bg_popwindow=0x7f020001;
-        public static final int blue=0x7f020027;
+        public static final int blue=0x7f020029;
         public static final int btn_big_normal_disable=0x7f020002;
         public static final int btn_big_normal_normal=0x7f020003;
         public static final int btn_big_normal_press=0x7f020004;
@@ -666,43 +666,45 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btn_default_nomal=0x7f020008;
         public static final int btn_default_sel=0x7f020009;
         public static final int btn_exam_details_array_add_nomal=0x7f02000a;
-        public static final int comp=0x7f02000b;
-        public static final int edittext_default=0x7f02000c;
-        public static final int edittext_normal_focus=0x7f02000d;
-        public static final int edittext_normal_normal=0x7f02000e;
-        public static final int edittext_normal_press=0x7f02000f;
-        public static final int flup_select_normal=0x7f020010;
-        public static final int green=0x7f020028;
-        public static final int ic_choose_sex_selector=0x7f020011;
-        public static final int ic_launcher=0x7f020012;
-        public static final int ic_ok_sel=0x7f020013;
-        public static final int ic_pulltorefresh_arrow=0x7f020014;
-        public static final int ic_pulltorefresh_arrow2=0x7f020015;
-        public static final int id_bluetooth_connect=0x7f020016;
-        public static final int id_bluetooth_unconnect=0x7f020017;
-        public static final int list_selector_transition=0x7f020018;
-        public static final int mainheart_delete=0x7f020019;
-        public static final int point_1=0x7f02001a;
-        public static final int point_2=0x7f02001b;
-        public static final int red=0x7f020026;
-        public static final int screen_background_black=0x7f02002a;
-        public static final int translucent_background=0x7f02002b;
-        public static final int transparent=0x7f020025;
+        public static final int clean_empty=0x7f02000b;
+        public static final int comp=0x7f02000c;
+        public static final int edittext_default=0x7f02000d;
+        public static final int edittext_normal_focus=0x7f02000e;
+        public static final int edittext_normal_normal=0x7f02000f;
+        public static final int edittext_normal_press=0x7f020010;
+        public static final int flup_select_normal=0x7f020011;
+        public static final int green=0x7f02002a;
+        public static final int ic_choose_sex_selector=0x7f020012;
+        public static final int ic_confirm_nomal=0x7f020013;
+        public static final int ic_launcher=0x7f020014;
+        public static final int ic_ok_sel=0x7f020015;
+        public static final int ic_pulltorefresh_arrow=0x7f020016;
+        public static final int ic_pulltorefresh_arrow2=0x7f020017;
+        public static final int id_bluetooth_connect=0x7f020018;
+        public static final int id_bluetooth_unconnect=0x7f020019;
+        public static final int list_selector_transition=0x7f02001a;
+        public static final int mainheart_delete=0x7f02001b;
+        public static final int point_1=0x7f02001c;
+        public static final int point_2=0x7f02001d;
+        public static final int red=0x7f020028;
+        public static final int screen_background_black=0x7f02002c;
+        public static final int translucent_background=0x7f02002d;
+        public static final int transparent=0x7f020027;
         /**  
     <drawable name="transparent_background">#00000000</drawable>
     
          */
-        public static final int transparent_background=0x7f02002c;
-        public static final int trash_empty=0x7f02001c;
-        public static final int voltage=0x7f02001d;
-        public static final int vpi_tab_indicator=0x7f02001e;
-        public static final int vpi_tab_selected_focused_holo=0x7f02001f;
-        public static final int vpi_tab_selected_holo=0x7f020020;
-        public static final int vpi_tab_selected_pressed_holo=0x7f020021;
-        public static final int vpi_tab_unselected_focused_holo=0x7f020022;
-        public static final int vpi_tab_unselected_holo=0x7f020023;
-        public static final int vpi_tab_unselected_pressed_holo=0x7f020024;
-        public static final int yellow=0x7f020029;
+        public static final int transparent_background=0x7f02002e;
+        public static final int trash_empty=0x7f02001e;
+        public static final int voltage=0x7f02001f;
+        public static final int vpi_tab_indicator=0x7f020020;
+        public static final int vpi_tab_selected_focused_holo=0x7f020021;
+        public static final int vpi_tab_selected_holo=0x7f020022;
+        public static final int vpi_tab_selected_pressed_holo=0x7f020023;
+        public static final int vpi_tab_unselected_focused_holo=0x7f020024;
+        public static final int vpi_tab_unselected_holo=0x7f020025;
+        public static final int vpi_tab_unselected_pressed_holo=0x7f020026;
+        public static final int yellow=0x7f02002b;
     }
     public static final class id {
         public static final int action_settings=0x7f050033;

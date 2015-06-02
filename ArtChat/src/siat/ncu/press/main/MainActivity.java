@@ -72,67 +72,67 @@ public class MainActivity extends PressBaseActivity {
     private XYSeriesRenderer datarenderer_down;
     private Context context;
    
-	private double currentStep;
-	private Thread pressThread;
+    private double currentStep;
+    private Thread pressThread;
     private double addX ;
     private double addY ;
     private int X_MIN = 0;
     private int X_MAX=10;//x轴最大值
-	//标准和阈值
-	private double value=30 ;//平行线中间值
-	private double bound=30;//上下限 可以自己随意设定
-	private double boundTimes = 1.2; //Y轴显示的范围
-	private double normalTimes = 1.5; //最大和最小线倍数
-	
-	private String btName = BlueTools.BLUETOOTH_NAME;// 蓝牙名称
+    //标准和阈值
+    private double value=30 ;//平行线中间值
+    private double bound=30;//上下限 可以自己随意设定
+    private double boundTimes = 1.2; //Y轴显示的范围
+    private double normalTimes = 1.5; //最大和最小线倍数
+    
+    private String btName = BlueTools.BLUETOOTH_NAME;// 蓝牙名称
     private String btMac = null;// 蓝牙名称
-	private boolean isAsyn = true;
-	private Cache cache;
-	private boolean pressDrawflag = true;
-	
-	private double sampleRateDouble; //采样频率
-	private double baseTime = 1; //基础时间1s
-	private double xGap;         //x轴的步长，等于1除以采样频率
-	private double timeInterval;   //时间间隔，用于线程睡眠，等于1000毫秒除以采样频率
-	private double time = 1000;   //1000毫秒
-	private int currentStandardLength ; //当前的X，绘制横线时使用
-	private int currentVerticalX;    //当前的X，绘制竖线时使用
-	private ArrayList<PressInfo> mArrayList;
-	private ArrayList<Double> oldX;
-	private ArrayList<Double> oldY;
-	private int max_Interval = 30; //能画出的最大的时间间隔
-	private int loopAmount;
-	private PressRunnable mPressRunnable;
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE); //无title
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_main);
-		
-		initView();
-		initDatas();
-		initEvent();
-	}
-	public void initView() {
-	    topLineLay  = (LinearLayout)findViewById(R.id.linLay_top);
-	    cleanLinLay =(LinearLayout)findViewById(R.id.linearLayout_clean);
-	    btoothLinLay = (LinearLayout)findViewById(R.id.linearLayout_btooth);
-	    voltageTv = (TextView)findViewById(R.id.tV_voltage);
-	    cleanLinLay.setOnClickListener(myClickListener);
-	    btoothLinLay.setOnClickListener(myClickListener);
-	    
-	    btoothState = (ImageView)findViewById(R.id.iV_btstatue);
-	    btoothName = (TextView)findViewById(R.id.tV_btDeviceNm);
-	    
-	    chartLineLay = (LinearLayout)findViewById(R.id.linearLayout_chat);
+    private boolean isAsyn = true;
+    private Cache cache;
+    private boolean pressFirstDrawflag = true;
+    private boolean isThreadPause = false;
+    
+    private double sampleRateDouble; //采样频率
+    private double baseTime = 1; //基础时间1s
+    private double xGap;         //x轴的步长，等于1除以采样频率
+    private double timeInterval;   //时间间隔，用于线程睡眠，等于1000毫秒除以采样频率
+    private double time = 1000;   //1000毫秒
+    private int currentStandardLength ; //当前的X，绘制横线时使用
+    private int currentVerticalX;    //当前的X，绘制竖线时使用
+    private ArrayList<PressInfo> mArrayList;
+    private ArrayList<Double> oldX;
+    private ArrayList<Double> oldY;
+    private int max_Interval = 30; //能画出的最大的时间间隔
+    private int loopAmount;
+    private PressRunnable mPressRunnable;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //无title
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main);
+        
+        initView();
+        initDatas();
+        initEvent();
+    }
+    public void initView() {
+        topLineLay  = (LinearLayout)findViewById(R.id.linLay_top);
+        cleanLinLay =(LinearLayout)findViewById(R.id.linearLayout_clean);
+        btoothLinLay = (LinearLayout)findViewById(R.id.linearLayout_btooth);
+        voltageTv = (TextView)findViewById(R.id.tV_voltage);
+        cleanLinLay.setOnClickListener(myClickListener);
+        btoothLinLay.setOnClickListener(myClickListener);
+        
+        btoothState = (ImageView)findViewById(R.id.iV_btstatue);
+        btoothName = (TextView)findViewById(R.id.tV_btDeviceNm);
+        
+        chartLineLay = (LinearLayout)findViewById(R.id.linearLayout_chat);
         chartLineLay.setBackgroundColor(Color.BLACK);
-	}
-	public OnClickListener myClickListener = new OnClickListener() {
+    }
+    public OnClickListener myClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.linearLayout_clean:
-//                    clearAll();
                     calibration();
                     break;
                 case R.id.linearLayout_btooth:
@@ -160,7 +160,6 @@ public class MainActivity extends PressBaseActivity {
     
     public void clearAll() {
         
-        mPressRunnable.stopTask();
         mPressRunnable = null;
         
         for(int i=0;i <= dataset.getSeriesCount();i++) {
@@ -200,6 +199,8 @@ public class MainActivity extends PressBaseActivity {
         btName = device.getName();
         mBluetoothService.connect(device);
     }
+    
+    private Integer status = 0;
    
     protected Handler btoothHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -207,17 +208,22 @@ public class MainActivity extends PressBaseActivity {
             case BluetoothService.MESSAGE_STATE_CHANGE:
                 switch (msg.arg1) {
                 case BluetoothService.STATE_CONNECTED:
+                    btoothState.setImageResource(R.drawable.id_bluetooth_connect);
                     btoothName.setText(btName);
-                    btoothState.setBackgroundResource(R.drawable.id_bluetooth_connect);
-                    ToastManager.showToast(context, "已连接到    " + btName);
+                    ToastManager.showToast(context, "已连接到   " + btName);
                     break;
                 case BluetoothService.STATE_CONNECTING:
                     btoothName.setText(R.string.connecting);
-                    btoothState.setBackgroundResource(R.drawable.id_bluetooth_unconnect);
+                    btoothState.setImageResource(R.drawable.id_bluetooth_unconnect);
                     break;
                 case BluetoothService.STATE_NONE:
                     btoothName.setText(R.string.unconnect);
-                    btoothState.setBackgroundResource(R.drawable.id_bluetooth_unconnect);
+                    btoothState.setImageResource(R.drawable.id_bluetooth_unconnect);
+                    if(pressThread.isAlive()) {
+                        isThreadPause = true;
+                        voltageTv.setText("0");
+                        mPressRunnable.setSuspendFlag();
+                    }
                     break;
                 }
                 break;
@@ -232,9 +238,12 @@ public class MainActivity extends PressBaseActivity {
                 CustomLog.v(TAG, "handleMessage() readBuf=" + Arrays.toString(readBuf));
                 try {
                     processReadData(readBuf);
-                    if(pressDrawflag) {
+                    if(pressFirstDrawflag) {
                         pressThread.start();
-                        pressDrawflag = false;
+                        pressFirstDrawflag = false;
+                    }else if(isThreadPause){
+                        mPressRunnable.setResume();
+                        isThreadPause = false;
                     }
                 }
                 catch (Exception e) {
@@ -410,7 +419,7 @@ public class MainActivity extends PressBaseActivity {
                 return true;
             }
         });
-        chartview.repaint();
+//        chartview.repaint();
     }
     
     public void initStandardLine() {
@@ -482,25 +491,22 @@ public class MainActivity extends PressBaseActivity {
         renderer.addSeriesRenderer(mRenderer);
     }
     
-	public void initEvent() {
-//	    connectPressDevice();
-//	    pressThread.start();
-//	    setVisibility();
-	}
-	
-	/**
+    public void initEvent() {
+//      connectPressDevice();
+//      pressThread.start();
+//      setVisibility();
+    }
+    
+    /**
      * 设置几个button的显示与隐藏
      * 
      * @param status
      */
     private void setVisibility() {
-        int status;
         if (isConnected()) {
-            status = View.VISIBLE;// 连接时设置可见
             btoothName.setText(btName);
             btoothState.setBackgroundResource(R.drawable.id_bluetooth_connect);
         } else {
-            status = View.GONE;// 未连接时设置不可见
             btoothName.setText("未连接");
             btoothState.setBackgroundResource(R.drawable.id_bluetooth_unconnect);
         }
@@ -524,27 +530,27 @@ public class MainActivity extends PressBaseActivity {
             }
         }
     }
-	protected void onResume() {
-	    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
-	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-	       }
-	       super.onResume();
-	};
-	//handler处理UI更新
-	Handler chartHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-		    super.handleMessage(msg);
-//			Bundle b=msg.getData();
-//			double x=b.getDouble("part_X");
-//			double y=b.getDouble("part_Y");
-		    
-			chartview.invalidate();
-			topLineLay.invalidate();
-//			 chartview.repaint();
-			//part_id1.setText(x);
-			//part_size1.setText(y);
-			 
+    protected void onResume() {
+        if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+           }
+           super.onResume();
+    };
+    //handler处理UI更新
+    Handler chartHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+//          Bundle b=msg.getData();
+//          double x=b.getDouble("part_X");
+//          double y=b.getDouble("part_Y");
+            
+            chartview.invalidate();
+            topLineLay.invalidate();
+//           chartview.repaint();
+            //part_id1.setText(x);
+            //part_size1.setText(y);
+             
             if(currentStep >= X_MAX) {//延长X_MAX造成右移效果
 
                 X_MIN += 5;
@@ -557,54 +563,70 @@ public class MainActivity extends PressBaseActivity {
 //                datarenderer_up.setColor(Color.RED);
 //                datarenderer_down=datarenderer_up;
             }
-		}
-	};
-	public class PressRunnable implements Runnable {
+        }
+        
+    };
+    public class PressRunnable implements Runnable {
         BigDecimal b;
         private boolean flag = true;
-        public void stopTask() {
-            flag = false;
+        private boolean suspendFlag = false; //控制线程的暂停和继续
+        
+        public void setSuspendFlag() {
+            this.suspendFlag = true;
+        }
+        
+        public synchronized void setResume() {
+            this.suspendFlag = false;
+            this.notify();
         }
         public void run() {
             try {
-                while (flag && BluetoothService.STATE_CONNECTED == mBluetoothService.getState()) {
-                    currentStep = currentStep + xGap;
-                    System.out.println("currentStep"+currentStep);
-                    /*if (i > 1100) {
-                        i = 100;
-                        xyseries.clear();
-                    }*/
-                    Thread.sleep((int)timeInterval);
-                    addX = currentStep;
-                    //设置好下一个需要增加的节点
-                    
-//                    b = new BigDecimal(((Math.random()) * bound)); //转换
-//                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-//                    //double+double再转一次
-//                    b = new BigDecimal(addY + value); //保留三位小数 四舍五入
-//                    addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+                if(!isConnected()) {
+                    return;
+                }
+                while (flag) {
+                    synchronized (this) {
+                        while (suspendFlag) {
+                            this.wait();
+                        }
+                        currentStep = currentStep + xGap;
+                        System.out.println("currentStep"+currentStep);
+                        /*if (i > 1100) {
+                            i = 100;
+                            xyseries.clear();
+                        }*/
+                        Thread.sleep((int)timeInterval);
+                        addX = currentStep;
+                        //设置好下一个需要增加的节点
+                        
+//                        b = new BigDecimal(((Math.random()) * bound)); //转换
+//                        addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+//                        //double+double再转一次
+//                        b = new BigDecimal(addY + value); //保留三位小数 四舍五入
+//                        addY = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 
-                    // 步骤不能变 1先清除数据 2保存原来的数据 3添加新数据 4添加原来的数据 5添加所有数据 
-                    //1
-                    dataset.removeSeries(xyseries);
-                    //2首先保存原数据
-                    for(int i=0;i<xyseries.getScaleNumber();i++) {
-                        oldX.add((double)xyseries.getX(i));
-                        oldY.add((double)xyseries.getY(i));
+                        // 步骤不能变 1先清除数据 2保存原来的数据 3添加新数据 4添加原来的数据 5添加所有数据 
+                        //1
+                        dataset.removeSeries(xyseries);
+                        //2首先保存原数据
+                        for(int i=0;i<xyseries.getScaleNumber();i++) {
+                            oldX.add((double)xyseries.getX(i));
+                            oldY.add((double)xyseries.getY(i));
+                        }
+                     // 点集先清空，为了做成新的点集而准备
+                        //3
+                        xyseries.add(addX, addY);
+                        //4
+                        for(int i=0;i<oldX.size();i++) {
+                            xyseries.add(oldX.get(i),oldY.get(i));
+                        }
+                        //5
+                        dataset.addSeries(0,xyseries);
+                        //传给hanlder
+                       Message message = chartHandler.obtainMessage();
+                       message.what = 1;//标志是哪个线程传数据  
+                       chartHandler.sendMessage(message);//发送message信息  
                     }
-                 // 点集先清空，为了做成新的点集而准备
-                    //3
-                    xyseries.add(addX, addY);
-                    //4
-                    for(int i=0;i<oldX.size();i++) {
-                        xyseries.add(oldX.get(i),oldY.get(i));
-                    }
-                    //5
-                    dataset.addSeries(0,xyseries);
-                    //传给hanlder
-                   Message message = chartHandler.obtainMessage();
-                   message.what = 1;//标志是哪个线程传数据  
-                   chartHandler.sendMessage(message);//发送message信息  
                 }
             }
             catch (InterruptedException e) {
@@ -612,7 +634,7 @@ public class MainActivity extends PressBaseActivity {
             }
         }
     }
-	
+    
    /* Runnable PressRunnable = new Runnable() {
         BigDecimal b;
         public void run() {
@@ -654,11 +676,11 @@ public class MainActivity extends PressBaseActivity {
                      chartview.postInvalidate();
                      if(i*2>X_MAX)//延长X_MAX造成右移效果
                      {
-                    	 X_MAX*=2;//按2倍速度延长 可以设置成speed
-                    	 renderer.setXAxisMax(X_MAX);// 设置X最大值
-                    	 dataset.removeSeries(xyseries_up);
-                    	 dataset.removeSeries(xyseries_down);
-                    	 xyseries_up.add(X_MAX/2 , value+bound);
+                         X_MAX*=2;//按2倍速度延长 可以设置成speed
+                         renderer.setXAxisMax(X_MAX);// 设置X最大值
+                         dataset.removeSeries(xyseries_up);
+                         dataset.removeSeries(xyseries_down);
+                         xyseries_up.add(X_MAX/2 , value+bound);
                          xyseries_up.add(X_MAX, value+bound);
                          xyseries_down.add(X_MAX/2, value-bound);
                          xyseries_down.add(X_MAX,value-bound);
@@ -680,22 +702,22 @@ public class MainActivity extends PressBaseActivity {
             }
         }
     };*/
-	    protected void onStop() {
-	        pressThread.interrupt();
-//	        dataset.clear();
-//	        renderer.removeAllRenderers();
-//	        chartLineLay.removeAllViews();
-//	        chartLineLay = null;
-	        super.onStop();
-	    };
-		@Override
-		protected void onDestroy() {
-			pressThread.interrupt();
-			BluetoothService.close();
-//			dataset.clear();
+        protected void onStop() {
+            pressThread.interrupt();
+//          dataset.clear();
+//          renderer.removeAllRenderers();
+//          chartLineLay.removeAllViews();
+//          chartLineLay = null;
+            super.onStop();
+        };
+        @Override
+        protected void onDestroy() {
+            pressThread.interrupt();
+            BluetoothService.close();
+//          dataset.clear();
 //            renderer.removeAllRenderers();
-			System.out.println("destory");
-			
-			super.onDestroy();
-		}
+            System.out.println("destory");
+            
+            super.onDestroy();
+        }
 }
