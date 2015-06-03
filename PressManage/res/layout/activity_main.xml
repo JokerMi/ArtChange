@@ -1,0 +1,115 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:orientation="vertical"
+     android:background="@android:color/black">
+	<LinearLayout android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:id="@+id/linLay_top"
+	    >
+	     <LinearLayout android:id="@+id/linearLayout_cleanData"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/margin_space_n"
+	        android:gravity="center"
+	        android:visibility="gone"
+	        >
+	     <ImageView
+            android:layout_width="@dimen/topImg_width"
+            android:layout_height="@dimen/topImg_height"
+            android:src="@drawable/clean_empty" >
+        </ImageView>
+	    <TextView
+            android:id="@+id/tV_cleanData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clean"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+		</LinearLayout>	
+	    
+	    <LinearLayout android:id="@+id/linearLayout_save"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	     <ImageView
+            android:layout_width="@dimen/topImg_width"
+            android:layout_height="@dimen/topImg_height"
+            android:src="@drawable/ic_confirm_nomal" >
+        </ImageView>
+	    <TextView
+            android:id="@+id/tV_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+		</LinearLayout>	    
+		    
+	    <LinearLayout android:id="@+id/linearLayout_btooth"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	    <ImageView
+            android:id="@+id/iV_btstatue"
+            android:layout_width="@dimen/topImg_width"
+            android:layout_height="@dimen/topImg_height"
+            android:src="@drawable/id_bluetooth_unconnect" >
+        </ImageView>
+        <TextView
+            android:id="@+id/tV_btDeviceNm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unconnect"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+        </LinearLayout>
+        
+	    <LinearLayout android:id="@+id/linearLayout_voltage"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginRight="@dimen/margin_space_2n"
+	        >
+	     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/voltage_values"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+	     <TextView
+            android:id="@+id/tV_voltage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:paddingLeft="@dimen/padding_m"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+	     <TextView
+            android:id="@+id/tV_voltage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V"
+            android:paddingLeft="@dimen/padding_m"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+		</LinearLayout>	
+	</LinearLayout>
+	
+    <LinearLayout android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="7"
+	    android:paddingLeft="@dimen/blank_space_l"
+	    android:paddingRight="@dimen/blank_space_l"
+	    android:id="@+id/linearLayout_chat"  
+        ></LinearLayout>
+
+</LinearLayout>

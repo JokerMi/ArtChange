@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#06594c"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_space_n" >
+
+            <TextView
+                android:id="@+id/device_scan_title"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_text_medium" />
+
+            <ProgressBar
+                android:id="@+id/devicescan_progressbar"
+                style="@android:style/Widget.ProgressBar.Small.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/blank_space_l"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_paired_devices"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#2ebda6"
+            android:padding="@dimen/margin_space_n"
+            android:text="@string/title_paired_devices"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_text_medium"
+            android:visibility="gone" />
+
+        <com.commlibrary.android.view.RefreshListView
+            android:id="@+id/paired_devices"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:stackFromBottom="true" />
+
+        <TextView
+            android:id="@+id/title_new_devices"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#2ebda6"
+            android:padding="@dimen/margin_space_n"
+            android:text="@string/title_other_devices"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_text_medium"
+            android:visibility="gone" />
+
+        <com.commlibrary.android.view.RefreshListView
+            android:id="@+id/new_devices"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:stackFromBottom="true" />
+
+        <Button
+            android:id="@+id/button_scan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/blank_space_n"
+            android:background="@drawable/btn_default_bg"
+            android:paddingLeft="@dimen/font_text_micro"
+            android:paddingRight="@dimen/font_text_micro"
+            android:text="@string/button_scan"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_text_medium" />
+    </LinearLayout>
+
+</ScrollView>
