@@ -4,7 +4,6 @@ import java.util.UUID;
 
 /**
  * 应用相关的常量
- * @author joker
  *
  */
 public final class MyContents {

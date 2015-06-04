@@ -63,12 +63,12 @@ public class DataProcess {
     }
     
     /**
-     * 对double数据进行变换，仅保留三位小数
+     * 对double数据进行变换，仅保留两位小数
      * @param value
      * @return
      */
-    public static double getThreedecimal(double value) {
-        DecimalFormat df = new DecimalFormat("#.###");
+    public static double getTwoYdecimal(double value) {
+        DecimalFormat df = new DecimalFormat("#.##");
         return Double.parseDouble(df.format(value));
     }
     

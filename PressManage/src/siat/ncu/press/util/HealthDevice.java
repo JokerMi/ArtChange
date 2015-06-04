@@ -8,7 +8,6 @@ import com.commlibrary.android.utils.CustomLog;
 
 /**
  * 
- * @author tanger
  *
  */
 public class HealthDevice {

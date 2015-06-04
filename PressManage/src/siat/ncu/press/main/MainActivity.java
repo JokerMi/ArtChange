@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore.Files;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -177,11 +178,11 @@ public class MainActivity extends PressBaseActivity {
     
     private double calibrationValue;
     /**
-     * 保存压力数据
+     * 保存压力数据到SD卡中，直接将内存中的数据保存进来，覆盖原来的数据，不进行追加操作
      */
     public void saveDataToSD() {
         try {
-            FileUtil.writeFile(FileUtil.RAMPATH , FileUtil.DIRPATH+"/"+sampleNameStr, isAppend);
+            FileUtil.writeFile(FileUtil.RAMPATH , FileUtil.DIRPATH+"/"+sampleNameStr, false);
             ToastManager.showToast(context, R.string.save_success);
         }
         catch (IOException e) {
@@ -389,7 +390,7 @@ public class MainActivity extends PressBaseActivity {
 //                    writeStrContent(dataLine);
                 }
                 addY = addY - calibrationValue;
-                addY = DataProcess.getThreedecimal(addY);
+                
                 totalPressValue = 0;
                 int value = Integer.parseInt(voltageStr, 16);
                 voltageValue = DataProcess.countElectricValue(value);
@@ -412,7 +413,7 @@ public class MainActivity extends PressBaseActivity {
      */
     public void writeStrContent(String dataStr) {
         try {
-            FileUtil.writeContent(dataStr, FileUtil.RAMPATH, isAppend);
+            FileUtil.writeContent(dataStr, FileUtil.RAMPATH, true);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -461,7 +462,6 @@ public class MainActivity extends PressBaseActivity {
         renderer.setClickEnabled(false);
         renderer.setZoomEnabled(false, false);
         //5
-        
         
 
         //设置按钮 用来记录尺寸的标准(value)和阈值(bound),然后再主界面显示出红线
@@ -715,7 +715,8 @@ public class MainActivity extends PressBaseActivity {
                         dataset.addSeries(0,xyseries);
                         
                         double newAddX = DataProcess.getTwodecimal(addX);
-                        dataLine = newAddX+"\t  "+Math.abs(addY) +"\r\n";
+                        addY = DataProcess.getTwoYdecimal(addY);
+                        dataLine = newAddX+"\t"+"\t"+Math.abs(addY) +"\r\n";
                         System.out.println("dataLine = " + dataLine);
                         writeStrContent(dataLine);
 
@@ -809,6 +810,14 @@ public class MainActivity extends PressBaseActivity {
         };
         @Override
         protected void onDestroy() {
+            try {
+                if(FileUtil.isExitFile(FileUtil.RAMPATH)){
+                    FileUtil.delFile(FileUtil.RAMPATH);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
             pressThread.interrupt();
             BluetoothService.close();
 //          dataset.clear();
