@@ -8,6 +8,10 @@
     <string name="open">打开设备</string>
 	<string name="close">关闭设备</string>
 	<string name="openBT">打开蓝牙</string>
+	<string name="no_connect_bluetooth">蓝牙未连接</string>
+	<string name="connected_bluetooth">蓝牙已连接</string>
+	<string name="start_record_info">开始记录信息</string>
+	<string name="stop_record_info">停止记录信息</string>
     <string name="ecg_device">心电仪 MAC 地址</string>
     <string name="ecg_list">已接收到文件列表</string>
 	<string name="ecg_current">当前文件传输进度</string>
@@ -33,13 +37,15 @@
     <string name="real_press">真实压力</string>
     <string name="unconnect">未连接</string>
     <string name="no_getdata">暂未获取到数据</string>
-    <string name="save">保 存</string>
+    <string name="start_save">记 录</string>
+    <string name="stop_save">停 止</string>
     <string name="clean">清 除</string>
     <string name="clean_success">数据清除成功</string>
     <string name="clean_fail">数据清除失败</string>
     <string name="no_sdcard">SD卡不存在，数据将保存在手机内存中</string>
     <string name="no_link_bluetooth">蓝牙设备未连接，请连接蓝牙设备</string>
     <string name="no_save_data">无数据需要保存</string>
+    <string name="no_start">测量未开始</string>
     <string name="save_success">数据保存成功</string>
     <string name="save_fail">数据保存失败</string>
     <string name="voltage_values">电压值：</string>
@@ -52,7 +58,6 @@
     <string name="none_found">未发现设备</string>
     <string name="none_paired">无配对设备</string>
     <string name="button_scan">查找设备</string>
-    <string name="unconnect">未连接</string>
     <string name="device_connected">设备已经连接</string>
     <string name="connecting">正在连接...</string>
     
@@ -77,4 +82,8 @@
     <string name="loop_amount">请输入循环次数</string>
     <string name="default_amount">默认个数为两个</string>
     <string name="warning_info">请至少设置一组数据</string>
+    
+    <string name="max_referenceValue">大参考值：</string>
+    <string name="min_referenceValue">小参考值：</string>
+    <string name="no_referenceValue">请设置参考值</string>
 </resources>

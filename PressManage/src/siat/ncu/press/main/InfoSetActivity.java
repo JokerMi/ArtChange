@@ -148,7 +148,7 @@ public class InfoSetActivity extends Activity implements OnClickListener{
                 mIntent.putExtra("sampleRate", sampleRateStr);
                 mIntent.putExtra("loopAmount", loopAmount);
                 mIntent.putExtra("sampleName", sampleNameStr);
-                mIntent.setClass(InfoSetActivity.this, MainActivity.class);
+                mIntent.setClass(InfoSetActivity.this, PressMainActivity.class);
                 startActivity(mIntent);
                 break;
             case R.id.btn_addpress:

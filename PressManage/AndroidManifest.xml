@@ -18,13 +18,17 @@
         android:theme="@style/AppTheme" >
         
         <activity android:name="siat.ncu.press.main.InfoSetActivity" >
+       
+        </activity>
+        
+        <activity android:name="siat.ncu.press.main.WelcomeActivity" >
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <activity android:name="siat.ncu.press.main.MainActivity" >
+        <activity android:name="siat.ncu.press.main.PressMainActivity" >
         </activity>
         
         <activity android:name="siat.ncu.press.main.DeviceScanActivity" 

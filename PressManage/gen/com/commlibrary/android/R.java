@@ -8,27 +8,27 @@ package com.commlibrary.android;
 
 public final class R {
 	public static final class id {
-		public static final int dialog_generic_btn_button3 = 0x7f050028;
-		public static final int dialog_generic_btn_button2 = 0x7f050027;
-		public static final int dialog_generic_layout_top = 0x7f05001f;
-		public static final int dialog_generic_view_titleline = 0x7f050022;
-		public static final int arrow = 0x7f050031;
-		public static final int dialog_generic_btn_button1 = 0x7f050026;
-		public static final int dialog_generic_htv_message = 0x7f050024;
-		public static final int dialog_generic_layout_content = 0x7f050023;
-		public static final int dialog_generic_layout_root = 0x7f05001e;
-		public static final int title = 0x7f050033;
-		public static final int progerssbar = 0x7f050032;
+		public static final int dialog_generic_btn_button3 = 0x7f05002d;
+		public static final int dialog_generic_btn_button2 = 0x7f05002c;
+		public static final int dialog_generic_layout_top = 0x7f050024;
+		public static final int dialog_generic_view_titleline = 0x7f050027;
+		public static final int arrow = 0x7f050036;
+		public static final int dialog_generic_btn_button1 = 0x7f05002b;
+		public static final int dialog_generic_htv_message = 0x7f050029;
+		public static final int dialog_generic_layout_content = 0x7f050028;
+		public static final int dialog_generic_layout_root = 0x7f050023;
+		public static final int title = 0x7f050038;
+		public static final int progerssbar = 0x7f050037;
 		public static final int triangle = 0x7f050001;
-		public static final int updated = 0x7f050034;
-		public static final int dialog_generic_htv_title = 0x7f050021;
+		public static final int updated = 0x7f050039;
+		public static final int dialog_generic_htv_title = 0x7f050026;
 		public static final int underline = 0x7f050002;
 		public static final int bottom = 0x7f050003;
 		public static final int none = 0x7f050000;
-		public static final int loadingdialog_htv_text = 0x7f050029;
-		public static final int dialog_generic_layout_bottom = 0x7f050025;
+		public static final int loadingdialog_htv_text = 0x7f05002e;
+		public static final int dialog_generic_layout_bottom = 0x7f05002a;
 		public static final int top = 0x7f050004;
-		public static final int dialog_generic_layout_title = 0x7f050020;
+		public static final int dialog_generic_layout_title = 0x7f050025;
 	}
 	public static final class anim {
 		public static final int controller_exit = 0x7f040001;
@@ -132,10 +132,10 @@ public final class R {
 		public static final int text_color = 0x7f06000d;
 	}
 	public static final class layout {
-		public static final int common_dialog_generic = 0x7f030002;
-		public static final int item_listview_header_layout = 0x7f030007;
-		public static final int common_flipping_loading_diloag = 0x7f030003;
-		public static final int item_listview_footer_layout = 0x7f030006;
+		public static final int common_dialog_generic = 0x7f030003;
+		public static final int item_listview_header_layout = 0x7f030008;
+		public static final int common_flipping_loading_diloag = 0x7f030004;
+		public static final int item_listview_footer_layout = 0x7f030007;
 	}
 	public static final class styleable {
 		public static final int LinePageIndicator_android_background = 0;
@@ -214,25 +214,25 @@ public final class R {
 		public static final int ProgressWheel_pwradius = 9;
 	}
 	public static final class drawable {
-		public static final int vpi_tab_selected_pressed_holo = 0x7f020023;
-		public static final int vpi_tab_indicator = 0x7f020020;
+		public static final int vpi_tab_selected_pressed_holo = 0x7f020024;
+		public static final int vpi_tab_indicator = 0x7f020021;
 		public static final int edittext_default = 0x7f02000d;
-		public static final int vpi_tab_selected_holo = 0x7f020022;
-		public static final int list_selector_transition = 0x7f02001a;
-		public static final int vpi_tab_unselected_holo = 0x7f020025;
+		public static final int vpi_tab_selected_holo = 0x7f020023;
+		public static final int list_selector_transition = 0x7f02001b;
+		public static final int vpi_tab_unselected_holo = 0x7f020026;
 		public static final int edittext_normal_focus = 0x7f02000e;
 		public static final int ic_pulltorefresh_arrow = 0x7f020016;
 		public static final int btn_big_normal_normal = 0x7f020003;
 		public static final int btn_big_normal_press = 0x7f020004;
-		public static final int vpi_tab_unselected_pressed_holo = 0x7f020026;
+		public static final int vpi_tab_unselected_pressed_holo = 0x7f020027;
 		public static final int ic_pulltorefresh_arrow2 = 0x7f020017;
 		public static final int bg_popwindow = 0x7f020001;
-		public static final int vpi_tab_selected_focused_holo = 0x7f020021;
-		public static final int point_2 = 0x7f02001d;
+		public static final int vpi_tab_selected_focused_holo = 0x7f020022;
+		public static final int point_2 = 0x7f02001e;
 		public static final int btn_default = 0x7f020005;
-		public static final int point_1 = 0x7f02001c;
-		public static final int vpi_tab_unselected_focused_holo = 0x7f020024;
-		public static final int transparent = 0x7f020027;
+		public static final int point_1 = 0x7f02001d;
+		public static final int vpi_tab_unselected_focused_holo = 0x7f020025;
+		public static final int transparent = 0x7f020029;
 		public static final int btn_big_normal_disable = 0x7f020002;
 		public static final int edittext_normal_normal = 0x7f02000f;
 		public static final int edittext_normal_press = 0x7f020010;

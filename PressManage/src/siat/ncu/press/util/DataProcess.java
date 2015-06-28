@@ -68,6 +68,9 @@ public class DataProcess {
      * @return
      */
     public static double getTwoYdecimal(double value) {
+        if(value < 0) {
+            value = 0;
+        }
         DecimalFormat df = new DecimalFormat("#.##");
         return Double.parseDouble(df.format(value));
     }

@@ -46,10 +46,30 @@
             android:id="@+id/tV_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save"
+            android:text="@string/start_save"
             android:textSize="@dimen/font_text_medium" 
             android:textColor="@android:color/white"/>
 		</LinearLayout>	    
+		
+	    <LinearLayout android:id="@+id/linearLayout_stop"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	     <ImageView
+            android:layout_width="@dimen/topImg_width"
+            android:layout_height="@dimen/topImg_height"
+            android:src="@drawable/icon_stop" >
+         </ImageView>
+	     <TextView
+            android:id="@+id/tV_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_save"
+            android:textSize="@dimen/font_text_medium" 
+            android:textColor="@android:color/white"/>
+		</LinearLayout>	 
 		    
 	    <LinearLayout android:id="@+id/linearLayout_btooth"
 	        android:layout_width="0dp"
@@ -106,10 +126,48 @@
 	
     <LinearLayout android:layout_width="match_parent"
 	    android:layout_height="0dp"
-	    android:layout_weight="7"
+	    android:layout_weight="8"
 	    android:paddingLeft="@dimen/blank_space_l"
 	    android:paddingRight="@dimen/blank_space_l"
 	    android:id="@+id/linearLayout_chat"  
         ></LinearLayout>
-
+    
+    <LinearLayout android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:orientation="horizontal"
+	    android:layout_margin="@dimen/margin_space_n"
+	    >
+	    <LinearLayout android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/max_referenceValue"
+	            android:textSize="@dimen/font_text_medium"
+	            android:textColor="@color/white"/>
+	        <EditText style="@style/myEditText_Style"
+	            android:id="@+id/edt_maxReferenceValue"
+	           />
+	    </LinearLayout>
+	    
+	     <LinearLayout android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        >
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/min_referenceValue"
+	            android:textSize="@dimen/font_text_medium"
+	            android:textColor="@color/white"/>
+	        <EditText 
+	            android:id="@+id/edt_minReferenceValue"
+	            style="@style/myEditText_Style"
+	            />
+	    </LinearLayout>
+	    
+	</LinearLayout>
 </LinearLayout>

@@ -38,6 +38,8 @@ public class FileUtil {
     public static final String RAMPATH = "/data/data/siat.ncu.press.main/siatPM.txt"; //手机内存文件路径
     public static final String SDPATH = "/sdcard/pressureSD/siatPM.txt";   //手机sd卡文件路径（在程序中先把数据存放在内存中，然后再复制到sd卡中） 
     
+    public static final String RAMPATH_PEAK = "/data/data/siat.ncu.press.main/siatPM_Peak.txt"; //手机内存文件路径
+    public static final String SDPATH_PEAK = "/sdcard/pressureSD/siatPM_Peak.txt";
     /**
      * 读取文件内容（使用UTF-8编码）
      * @param filePath 输出文件路径
